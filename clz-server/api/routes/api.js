@@ -1,5 +1,4 @@
 const router = require('koa-router')();
-const frontArticle = require('../controller/article');
 // const backArticle = require('../controller/backArticle');
 const update = require('../controller/update');
 const articleList = require('../controller/articleList');
@@ -25,15 +24,27 @@ const storage = multer.diskStorage({
 })
 //加载配置
 const upload = multer({storage: storage})
+
+// 路由前缀
 router.prefix('/api');
+
+const {
+    insertArticle,
+    getArticle,
+    articleInfo,
+    uploadFile,
+    deleteFile,
+    findOneArticle
+} = require('../controller/article')
+
 /*插入文章接口*/
-router.post('/article/insertFront',frontArticle.insertArticle);
+router.post('/article/insertFront',insertArticle);
 // router.post('/article/insertBack',backArticle.insertArticle);
 /*查询文章接口*/
-router.get('/article/getFrontArticle',frontArticle.getArticle);
+router.get('/article/getFrontArticle',getArticle);
 // router.get('/article/getBackArticle',backArticle.getArticle);
 /*文章详情接口*/
-router.get('/article/getFrontArticleInfo',frontArticle.articleInfo);
+router.get('/article/getFrontArticleInfo',articleInfo);
 // router.get('/article/getBackArticleInfo',backArticle.articleInfo);
 /*修改文章接口*/
 router.get('/article/update',update.update);
@@ -52,11 +63,11 @@ router.post('/login',LoginStrategy.login);
 /*控制面板信息*/
 router.post('/system',system.controller);
 /*上传接口*/
-router.post('/upload',upload.single('file'), frontArticle.uploadFile);
+router.post('/upload',upload.single('file'), uploadFile);
 /*删除图片接口*/
-router.post('/deleteFile', frontArticle.deleteFile)
+router.post('/deleteFile', deleteFile)
 /*查询单文章*/
-router.post('/findOneArticle', frontArticle.findOneArticle)
+router.post('/findOneArticle', findOneArticle)
 /*评论接口*/
 router.post('/comment', insertComment)
 /*评论列表接口*/

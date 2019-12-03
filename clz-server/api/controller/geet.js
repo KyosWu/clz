@@ -1,4 +1,4 @@
-const click = require('./../geet/click');
+const click = require('../../geet/click');
 let geet = async (ctx) => {
     try {
         let result = await click.register(null)

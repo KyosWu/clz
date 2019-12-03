@@ -5,10 +5,11 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+// 后台跨域设置
 const cors = require('koa-cors');
 const session = require('koa-session');
 
-const api = require('./routes/api');
+const api = require('./api/routes/api');
 // error handler
 onerror(app)
 

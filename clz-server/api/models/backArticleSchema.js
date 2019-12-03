@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db = require('./db');
+const db = require('../../config/db');
 
 let articleSchema = new mongoose.Schema({
 	title:String,

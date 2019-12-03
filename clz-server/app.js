@@ -5,6 +5,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const InitManager = require('./core/init')
 // 后台跨域设置
 const cors = require('koa-cors');
 const session = require('koa-session');
@@ -48,7 +49,8 @@ app.use(async (ctx, next) => {
 })
 app.use(cors())
 // routes
-app.use(api.routes(), api.allowedMethods())
+// app.use(api.routes(), api.allowedMethods())
+InitManager.initCore(app)
 
 // error-handling
 app.on('error', (err, ctx) => {

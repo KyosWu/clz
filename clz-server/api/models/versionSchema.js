@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db = require('./db');
+const db = require('../../config/db');
 
 let versionSchema = new mongoose.Schema({
 	version:String,

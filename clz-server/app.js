@@ -9,8 +9,6 @@ const InitManager = require('./core/init')
 // 后台跨域设置
 const cors = require('koa-cors');
 const session = require('koa-session');
-
-const api = require('./api/routes/api');
 // error handler
 onerror(app)
 
@@ -48,8 +46,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 app.use(cors())
-// routes
-// app.use(api.routes(), api.allowedMethods())
 InitManager.initCore(app)
 
 // error-handling

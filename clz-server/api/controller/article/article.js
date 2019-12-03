@@ -117,7 +117,7 @@ class Article {
 		} catch (error) {
 			ctx.body = {
 				error: 1,
-				error
+				error: e
 			}
 		}
 	}

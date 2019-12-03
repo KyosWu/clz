@@ -11,7 +11,7 @@ const {
     commentConfig,
     configList,
     delComment
-} = require('../../controller/comment')
+} = require('../../controller/article/comment')
 
 
 /*评论接口*/

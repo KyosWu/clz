@@ -1,5 +1,5 @@
-const frontArticle = require('../models/frontArticleSchema');
-const backArticle = require('../models/backArticleSchema');
+const frontArticle = require('../../models/frontArticleSchema');
+const backArticle = require('../../models/backArticleSchema');
 
 /**
  *private API

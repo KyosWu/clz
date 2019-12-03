@@ -27,7 +27,7 @@ const {
     uploadFile,
     deleteFile,
     findOneArticle
-} = require('../../controller/article')
+} = require('../../controller/article/article')
 
 // 文章
 /*插入文章接口*/

@@ -7,7 +7,7 @@ const {
     getToken,
     articleImgUpload,
     delArticleImg
-} = require('../../controller/articleimg')
+} = require('../../controller/article/articleImg')
 
 /*获取上传图片token*/
 router.post('/article/getToken', getToken)

@@ -11,13 +11,15 @@ const os = require('os');
  *@param {String} percetage 内存占用率百分比
  *@param {String} constants 已经发生进程异常
 */
-let controller = async(ctx,next)=>{
-	let {parseInt} = Number;
-	let { freemem, cpus, hostname, platform, release, totalmem, type, constants } = os;
-	let total = parseInt(totalmem() /1024 /1024);
-	let num = parseInt(freemem() /1024 /1024);
-	let percentage = parseInt((num / total) * 100);
-	ctx.body = {
+
+class System {
+	async controller (ctx,next){
+		let {parseInt} = Number;
+		let { freemem, cpus, hostname, platform, release, totalmem, type, constants } = os;
+		let total = parseInt(totalmem() /1024 /1024);
+		let num = parseInt(freemem() /1024 /1024);
+		let percentage = parseInt((num / total) * 100);
+		ctx.body = {
 			hostname:hostname(),
 			platform:platform(),
 			release:release(),
@@ -27,9 +29,8 @@ let controller = async(ctx,next)=>{
 			freemem:`${num}MB`,
 			constants:constants.SIGTRAP ? '1' : '0',
 			cpu:cpus()
+		}
 	}
 }
 
-module.exports = {
-	controller
-}
+module.exports = new System();

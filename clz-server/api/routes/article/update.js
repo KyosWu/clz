@@ -1,6 +1,5 @@
 const Router = require('koa-router');
 
-
 const router = new Router({
     prefix: '/update'
 });
@@ -8,7 +7,7 @@ const router = new Router({
 const {
     update,
     updateContent
-} = require('../../controller/update')
+} = require('../../controller/article/update')
 
 
 // 接口修改

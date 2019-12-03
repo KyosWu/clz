@@ -44,7 +44,7 @@ export default {
     ...mapMutations(['setUserName']),
     login (username, password) {
       let json = {username, password}
-      this.$axios.post('/api/login', json).then(res => {
+      this.$axios.post('/login/login', json).then(res => {
         let {error, username, msg} = res.data
         if (Object.is(error, 0)) {
           // 初始化sessionStorage

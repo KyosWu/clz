@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     init () {
-      this.$axios.post('/api/system').then(res => {
+      this.$axios.post('/system/system').then(res => {
         let { constants, release, platform, hostname, type, freemem, totalmem, percentage, cpu } = res.data;
         [this.constants, this.release, this.platform, this.hostname, this.type, this.freemem, this.totalmem, this.percentage, this.cpu] = [constants, release, platform, hostname, type, freemem, totalmem, percentage, cpu]
       })

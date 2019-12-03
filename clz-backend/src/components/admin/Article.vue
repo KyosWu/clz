@@ -77,7 +77,7 @@ export default {
       if (Object.is(this.title, '')) {
         this.error('文章标题留空无法保存', '请仔细检查文章标题', false)
       } else {
-        this.$axios.post(`/api/article/insert${this.radio}`, param).then(res => {
+        this.$axios.post(`/article/insert${this.radio}`, param).then(res => {
           let {error} = res.data
           if (Object.is(error, 0)) {
             this.success('文章发布成功', '文章发布成功', false);
@@ -93,7 +93,7 @@ export default {
       formdata.append('token', this.uploadToken)
       formdata.append('file', file)
       this.$axios({
-        url: '/api/article/upload',
+        url: '/articleimg/upload',
         method: 'post',
         data: formdata,
         headers: {
@@ -111,7 +111,7 @@ export default {
     },
     async getUploadToken () {
       try {
-        let result = await this.$axios.post('/api/article/getToken')
+        let result = await this.$axios.post('/articleimg/getToken')
         this.uploadToken = result.data
       } catch (error) {
         this.error(error, error, false)

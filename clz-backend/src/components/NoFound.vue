@@ -19,7 +19,7 @@
       width:800px;
       height:155px;
       margin:0 auto;
-      background:url('/static/images/stop.png') no-repeat;
+      background:url('#/images/stop.png') no-repeat;
       background-size:cover;
       background-position:center center;
     }

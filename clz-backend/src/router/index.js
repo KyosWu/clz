@@ -8,12 +8,12 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: () => import(/* webpackChunkName: 'index' */ '@/components/Index'),
+      component: () => import(/* webpackChunkName: 'index' */ '@/views/Index'),
       meta: {requireAuth: false}
     },
     {
       path: '/admin',
-      component: () => import(/* webpackChunkName: 'admin' */ '@/components/admin/admin.vue'),
+      component: () => import(/* webpackChunkName: 'admin' */ '@/views/admin.vue'),
       meta: {requireAuth: true},
       children: [
         {

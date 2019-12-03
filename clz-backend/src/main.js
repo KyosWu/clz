@@ -5,14 +5,15 @@ import { Button, Row, Col, Menu, MenuItem, Upload, Icon, Layout, Sider, Submenu,
 import 'iview/dist/styles/iview.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import Axios from 'axios'
+import axios from './utils/http'
 import store from '@/vuex/store'
 import commonPlugin from '@/plugins'
-Axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://api.brianlee.cn'
+
 Vue.config.productionTip = false
-Vue.prototype.$axios = Axios
 Vue.use(mavonEditor)
 Vue.use(commonPlugin)
+Vue.use(axios)
+
 Vue.component('Button', Button)
 Vue.component('Row', Row)
 Vue.component('Col', Col)

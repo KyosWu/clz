@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 
 const router = new Router({
-    prefix: '/article'
+    prefix: '/api/article'
 });
 
 const {

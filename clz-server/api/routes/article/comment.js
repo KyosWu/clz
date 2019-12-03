@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const router = new Router({
-    prefix: '/comment'
+    prefix: '/api/comment'
 });
 
 const {

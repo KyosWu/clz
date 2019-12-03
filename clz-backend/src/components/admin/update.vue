@@ -22,7 +22,7 @@
               </div>
               <div v-else>
                 <h3 style="text-align: center;">上传Banner图</h3>
-                <Upload multiple type="drag" :on-success="uploadSuccess" :on-error="uploadError" :data="{id: $route.params.id, radio: collections.radio}" action="http://localhost:3000/api/upload" :show-upload-list="false" :format="['jpg','jpeg','png']">
+                <Upload multiple type="drag" :on-success="uploadSuccess" :on-error="uploadError" :data="{id: $route.params.id, radio: collections.radio}" action="http://localhost:8888/api/articleImg/upload" :show-upload-list="false" :format="['jpg','jpeg','png']">
                   <div style="padding: 20px 0">
                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                     <p>点击上传或拖拽上传Banner图</p>
@@ -91,7 +91,7 @@ export default {
   methods: {
     init () {
       let id = this.$route.params.id
-      this.$axios.get('/api/article/update', {params: {id}}).then(res => {
+      this.$axios.get('/article/update', {params: {id}}).then(res => {
         let {data: [{_id, title, des, original, time, list}]} = res
         console.log(res.data)
         Object.assign(this.collections, {id: _id, title, des, content: original, date: time, radio: list})
@@ -112,7 +112,7 @@ export default {
     async confirmDelete () {
       /* 删除 */
       try {
-        let {data: {status, result: {nModified}}} = await this.$axios.post('/api/deleteFile', {id: this.$route.params.id, radio: this.collections.radio})
+        let {data: {status, result: {nModified}}} = await this.$axios.post('/article/deleteFile', {id: this.$route.params.id, radio: this.collections.radio})
         if (Object.is(status, 200)) {
           this.defaultRequest()
           this.success(`删除成功`, `删除${nModified}个文件`, false)
@@ -123,7 +123,7 @@ export default {
     },
     async defaultRequest () {
       /* 获取显示图片 */
-      let {data: {result}} = await this.$axios.post('/api/findOneArticle', {id: this.$route.params.id, radio: this.collections.radio})
+      let {data: {result}} = await this.$axios.post('/article/findOneArticle', {id: this.$route.params.id, radio: this.collections.radio})
       if (Object.is(result.banner, undefined)) {
         Object.assign(this.img, {path: '', filename: ''})
       } else {
@@ -139,7 +139,7 @@ export default {
       if (Object.is(this.title, '')) {
         this.error('文章标题留空无法保存', '请仔细检查文章标题', false)
       } else {
-        this.$axios.post(`/api/article/insert${this.collections.radio}`, this.collections).then(res => {
+        this.$axios.post(`/article/insert${this.collections.radio}`, this.collections).then(res => {
           let {error} = res.data
           console.log(res.data)
           if (Object.is(error, 0)) {
@@ -155,7 +155,7 @@ export default {
     },
     async getUploadToken () {
       try {
-        let result = await this.$axios.post('/api/article/getToken')
+        let result = await this.$axios.post('/article/getToken')
         this.uploadToken = result.data
       } catch (error) {
         this.error(error, error, false)
@@ -166,7 +166,7 @@ export default {
       formdata.append('token', this.uploadToken)
       formdata.append('file', file)
       this.$axios({
-        url: '/api/article/upload',
+        url: '/article/upload',
         method: 'post',
         data: formdata,
         headers: {

@@ -28,7 +28,7 @@ export default {
 }
 </script>
 <style lang="less">
-    @import './../../assets/css/admin/style.less';
+    @import '../assets/css/admin/style.less';
     body {
         min-width:1200px;
     }

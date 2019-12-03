@@ -1,10 +1,14 @@
 const Koa = require('koa')
 const app = new Koa()
+
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+// 导入mongodb 连接信息 否则无法联通数据库
+const db = require('./config/db')
+// 路由自动加载功能
 const InitManager = require('./core/init')
 // 后台跨域设置
 const cors = require('koa-cors');

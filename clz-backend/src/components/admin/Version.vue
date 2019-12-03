@@ -33,7 +33,7 @@ export default {
         version: this.version,
         content: this.htmlContent
       }
-      this.$axios.post('/api/version/insert', json).then(res => {
+      this.$axios.post('/version/insert', json).then(res => {
         let {error} = res.data
         if (Object.is(error, 0)) {
           this.success('文章发布成功', '', true)

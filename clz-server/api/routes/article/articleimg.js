@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const router = new Router({
-    prefix: '/articleimg'
+    prefix: '/api/articleimg'
 });
 
 const {
@@ -10,10 +10,10 @@ const {
 } = require('../../controller/article/articleImg')
 
 /*获取上传图片token*/
-router.post('/article/getToken', getToken)
+router.post('/getToken', getToken)
 /*上传七牛云图片*/
-router.post('/article/upload', articleImgUpload)
+router.post('/upload', articleImgUpload)
 /*删除七牛云图片*/
-router.post('/article/delArticleImg', delArticleImg)
+router.post('/delArticleImg', delArticleImg)
 
 module.exports = router;

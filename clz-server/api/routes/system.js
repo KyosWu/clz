@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const router = new Router({
-    prefix: '/system'
+    prefix: '/api/system'
 });
 
 const {

@@ -1,16 +1,10 @@
 const mongoose = require('mongoose');
-const db = require('../../config/db');
+const { Schema, model } = mongoose;
 
-let userSchema = new mongoose.Schema({
+let userSchema = new Schema({
     username:String,
     password:String
 });
 
-let userModel = db.model('user',userSchema);
 
-/**
- * private
- * 封装查询用户Schema
-*/
-
-module.exports = userModel;
+module.exports = model('user',userSchema);

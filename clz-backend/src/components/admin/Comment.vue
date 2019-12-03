@@ -173,7 +173,7 @@ export default {
     async authorLists () {
       // 调用控制字段列表
       try {
-        let {data} = await this.$axios.post('/api/comment/config/list')
+        let {data} = await this.$axios.post('/comment/config/list')
         if (Object.is(data.error, 0)) {
           this.authorList = data.data.author
           this.status = data.data.status
@@ -185,7 +185,7 @@ export default {
     async changeCommentConfig (author, status) {
       // 增加控制字段
       try {
-        let {data} = await this.$axios.post('/api/comment/config', {author, status})
+        let {data} = await this.$axios.post('/comment/config', {author, status})
         if (Object.is(data.nModified, 1)) {
           this.success('添加成功', '添加保留字段成功', false)
           this.author = ''
@@ -208,7 +208,7 @@ export default {
     async commentList (page, pageSize) {
       // 评论列表
       try {
-        let {data} = await this.$axios.post('/api/commentsList', {page, pageSize})
+        let {data} = await this.$axios.post('/comment/commentsList', {page, pageSize})
         this.commentTable = data.result
       } catch (error) {
         // handle error
@@ -228,7 +228,7 @@ export default {
     },
     async modalDel () {
       try {
-        let {data} = await this.$axios.post('/api/comment/delComment', {id: this.commentId, time: this.commentTime})
+        let {data} = await this.$axios.post('/comment/delComment', {id: this.commentId, time: this.commentTime})
         if (Object.is(data.error, 0)) {
           // 成功删除
           this.success('删除成功', `成功删除数量：${data.delCount}`, false)
@@ -243,7 +243,7 @@ export default {
     },
     async commentLists () {
       try {
-        let {data: {data}} = await this.$axios.post(`/api/comment/config/list`)
+        let {data: {data}} = await this.$axios.post(`/comment/config/list`)
         this.authorConfig = data.author
       } catch (error) {
         // handle error

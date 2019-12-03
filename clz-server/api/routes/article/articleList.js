@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const router = new Router({
-    prefix: '/articleList'
+    prefix: '/api/articleList'
 });
 
 const {
@@ -11,7 +11,7 @@ const {
 
 
 /*文章列表接口*/
-router.get('/article/frontList', frontList);
-router.get('/article/backList', backList);
+router.get('/frontList', frontList);
+router.get('/backList', backList);
 
 module.exports = router;

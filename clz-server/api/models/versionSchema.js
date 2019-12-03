@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-const db = require('../../config/db');
+const { Schema, model } = mongoose;
 
-let versionSchema = new mongoose.Schema({
+const versionSchema = new Schema({
 	version:String,
 	time:String,
 	content:String
 });
 
-let versionModel = db.model('version',versionSchema);
-
-module.exports = versionModel;
+module.exports = model('version',versionSchema);

@@ -133,7 +133,7 @@ export default {
     },
     async initFront (page) {
       try {
-        let {data: {count, front}} = await this.$axios.get('/api/article/frontList', {params: {page, pagesize: 6}})
+        let {data: {count, front}} = await this.$axios.get('/articleList/frontList', {params: {page, pagesize: 6}})
         this.front = front
         this.frontCount = count
       } catch (error) {
@@ -142,7 +142,7 @@ export default {
     },
     async initBack (page) {
       try {
-        let {data: {count, back}} = await this.$axios.get('/api/article/backList', {params: {page, pagesize: 6}})
+        let {data: {count, back}} = await this.$axios.get('/articleList/backList', {params: {page, pagesize: 6}})
         this.back = back
         this.backCount = count
       } catch (error) {
@@ -158,7 +158,7 @@ export default {
     },
     delete (id, list) {
       let json = {id, list}
-      this.$axios.post('/api/article/delArticle', json).then(res => {
+      this.$axios.post('/articleList/delArticle', json).then(res => {
         let {del, ok} = res.data
         this.del = del
         this.ok = ok

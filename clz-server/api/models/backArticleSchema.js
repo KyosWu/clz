@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const db = require('../../config/db');
+const { Schema, model } = mongoose;
 
-let articleSchema = new mongoose.Schema({
+const articleSchema = new Schema({
 	title:String,
 	time:String,
 	content:String,
@@ -12,6 +12,5 @@ let articleSchema = new mongoose.Schema({
     imgFileName: String
 });
 
-let articleModel = db.model('backArticle',articleSchema);
 
-module.exports = articleModel;
+module.exports = model('backArticle',articleSchema);

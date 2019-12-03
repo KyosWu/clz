@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const router = new Router({
-    prefix: '/geet'
+    prefix: '/api/geet'
 });
 
 const {

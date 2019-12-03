@@ -26,7 +26,7 @@
                 <Upload multiple type="drag" :on-success="uploadSuccess"
                         :on-error="uploadError"
                         :data="{id: $route.params.id, radio: collections.radio}"
-                        action="http://localhost:3000/api/articleImg/upload"
+                        action="cdn.kyosumwu.cn/blog"
                         :show-upload-list="false" :format="['jpg','jpeg','png']">
                   <div style="padding: 20px 0">
                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>

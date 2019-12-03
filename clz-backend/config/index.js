@@ -16,6 +16,9 @@ module.exports = {
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '^/api': '' // 重写接口,后面可以使重写的新路径，一般不做更改
+        },
+        exclude: {
+          target: 'cdn.kyosumwu.cn/blog'
         }
       }
     },

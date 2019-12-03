@@ -9,8 +9,8 @@ const formidable = require('formidable')
  */
 class AerticleImg {
     async getToken (ctx) {
-        let accessKey = ''  // 源码删除:七牛云获取 ak,必须配置
-        let secretKey = ''  // 源码删除:七牛云获取 sk, 必须配置
+        let accessKey = 'lnba53EkzuAaEbtRHhO_aSF8Gwqe3H1yPm5u05mh'  // 源码删除:七牛云获取 ak,必须配置
+        let secretKey = 'phi6LaT9CgfwJvqLlVse5PVN953ThfMdAMjA7GTW'  // 源码删除:七牛云获取 sk, 必须配置
         let mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
         let options = {
             scope: 'blog',  // 对应七牛云存储空间名称

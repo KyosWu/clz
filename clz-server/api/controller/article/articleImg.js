@@ -49,7 +49,7 @@ class AerticleImg {
         ctx.status = respInfo.statusCode
         ctx.body = {
             respErr,
-            img: `http://images.brianlee.cn/${respBody.key}`,
+            img: `http://cdn.kyosumwu.cn/${respBody.key}`,
             hash: respBody.hash,
             status: respInfo.statusCode,
             filename

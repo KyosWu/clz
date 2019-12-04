@@ -13,7 +13,7 @@
             <Card>
               <div v-if="img.path">
                 <Poptip @on-ok="confirmDelete" confirm title="您确定要删除么？" style="width:100%;">
-          <i class="icon iconfont icon-guanbi"></i>
+                  <i class="icon iconfont icon-guanbi"></i>
                 </Poptip>
                 <div style="text-align:center">
                   <img :src="img.path" alt="" style="background-size:cover;max-width:100%;height:128px;">
@@ -23,11 +23,13 @@
               <div v-else>
                 <h3 style="text-align: center;">上传Banner图</h3>
                 <!--  暂时有问题 -->
-                <Upload multiple type="drag" :on-success="uploadSuccess"
+                <Upload multiple type="drag"
+                        :on-success="uploadSuccess"
                         :on-error="uploadError"
                         :data="{id: $route.params.id, radio: collections.radio}"
-                        action="cdn.kyosumwu.cn/blog"
-                        :show-upload-list="false" :format="['jpg','jpeg','png']">
+                        action="http://localhost:3000/api/articleImg/upload"
+                        :show-upload-list="false"
+                        :format="['jpg','jpeg','png']">
                   <div style="padding: 20px 0">
                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                     <p>点击上传或拖拽上传Banner图</p>
@@ -37,7 +39,13 @@
             </Card>
           </Col>
         </Row>
-    <mavon-editor ref="mavonEditor" @change="changeContent" @imgDel="imgDel" @imgAdd="imgAdd" @save="save" class="article_content" v-model="collections.content" fontSize="18px" placeholder="开始编写文章内容..." style="min-height:600px;" />
+    <mavon-editor ref="mavonEditor"
+                  @change="changeContent"
+                  @imgDel="imgDel"
+                  @imgAdd="imgAdd" @save="save" class="article_content"
+                  v-model="collections.content" fontSize="18px"
+                  placeholder="开始编写文章内容..."
+                  style="min-height:600px;" />
     <Button type="warning" class="article_button" @click="submitArticle">修改文章</Button>
   </Col>
   <!-- 右侧 -->
@@ -103,9 +111,23 @@ export default {
         this.defaultRequest()
       })
     },
-    uploadSuccess (file) {
-      this.success(`上传成功`, `上传banner图成功`, false)
-      Object.assign(this.img, file)
+    uploadSuccess (res, file) {
+      var formdata = new FormData()
+      formdata.append('token', this.uploadToken)
+      formdata.append('file', file)
+      this.$axios({
+        url: '/articleimg/upload',
+        method: 'post',
+        data: formdata,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': '*/*'
+        }
+      }).then(res => {
+        console.log(res)
+      })
+      // this.success(`上传成功`, `上传banner图成功`, false)
+      // Object.assign(this.img, file)
     },
     uploadError (error, file) {
       this.error(`出现错误`, `错误信息：${error},${file}`, false)

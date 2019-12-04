@@ -16,9 +16,6 @@ module.exports = {
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '^/api': '' // 重写接口,后面可以使重写的新路径，一般不做更改
-        },
-        exclude: {
-          target: 'cdn.kyosumwu.cn/blog'
         }
       }
     },
@@ -30,7 +27,6 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
 
     /**
      * Source Maps

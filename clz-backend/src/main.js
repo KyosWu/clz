@@ -9,10 +9,15 @@ import axios from './utils/http'
 import store from '@/vuex/store'
 import commonPlugin from '@/plugins'
 
+// 引入element-ui组件
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 Vue.config.productionTip = false
 Vue.use(mavonEditor)
 Vue.use(commonPlugin)
 Vue.use(axios)
+Vue.use(Element)
 
 Vue.component('Button', Button)
 Vue.component('Row', Row)

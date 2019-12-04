@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Per from './permission'
+import Art from './article'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   // mode:'history',
   routes: [
     {
@@ -14,40 +17,33 @@ export default new Router({
     {
       path: '/admin',
       component: () => import(/* webpackChunkName: 'admin' */ '@/views/admin.vue'),
+      name: 'admin',
       meta: {requireAuth: true},
       children: [
+        // system
         {
-          path: '/admin/',
-          name: 'admin',
+          path: '/system',
+          name: 'system',
           component: () => import(/* webpackChunkName: 'Admin-index' */ '@/components/admin/Admin-index.vue'),
           meta: {requireAuth: true}
         },
+        // 版本控制
         {
-          path: 'article',
-          name: 'article',
-          component: () => import(/* webpackChunkName: 'article' */ '@/components/admin/Article.vue'),
-          meta: {keepAlive: true, requireAuth: true}
-        },
-        {
-          path: 'article/:id',
-          name: 'update',
-          component: () => import(/* webpackChunkName: 'update' */ '@/components/admin/update.vue'),
-          meta: {requireAuth: true}
-        },
-        {
-          path: 'list',
-          name: 'articleList',
-          component: () => import(/* webpackChunkName: 'articleList' */ '@/components/admin/ArticleList.vue'),
-          meta: {requireAuth: true}
-        },
-        {
-          path: 'version',
+          path: '/version',
           name: 'version',
           component: () => import(/* webpackChunkName: 'version' */ '@/components/admin/Version.vue'),
           meta: {requireAuth: true}
         },
+        // 用户权限
+        { path: '/permission/adminList', component: Per.list, name: 'adminList', meta: {requireAuth: true} },
+        { path: '/permission/adminAdd', component: Per.add, name: 'adminAdd', meta: {requireAuth: true} },
+        // 文章
+        { path: '/article', name: 'article', component: Art.art, meta: {keepAlive: true, requireAuth: true} },
+        { path: '/article/:id', name: 'update', component: Art.update, meta: {requireAuth: true} },
+        { path: 'list', name: 'articleList', component: Art.list, meta: {requireAuth: true} },
+        // 评论
         {
-          path: 'comment',
+          path: '/comment',
           name: 'comment',
           component: () => import(/* webpackChunkName: 'version' */ '@/components/admin/Comment.vue'),
           meta: {requireAuth: true}
@@ -63,3 +59,5 @@ export default new Router({
     }
   ]
 })
+
+export default router

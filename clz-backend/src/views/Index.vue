@@ -51,7 +51,7 @@ export default {
           let storage = window.sessionStorage
           storage.setItem('username', username)
           this.setUserName(storage.getItem('username'))
-          this.$router.push({name: 'admin'})
+          this.$router.push('/system')
         } else if (Object.is(error, 1)) {
           this.error('用户名错误', msg, false)
         } else {
@@ -69,7 +69,7 @@ export default {
   .login_images {
     width:100%;
     height:100vh;
-    background:url('/static/images/login.jpeg') no-repeat;
+    background:url('../../static/images/login.jpeg') no-repeat;
     background-size:cover;
     background-position: center center;
   }

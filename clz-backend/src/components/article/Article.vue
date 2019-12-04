@@ -127,5 +127,5 @@ function FormatDate (strTime) {
 </script>
 
 <style lang="less">
-  @import './../../assets/css/admin/article.less';
+  @import '../../assets/css/admin/article.less';
 </style>

@@ -5,7 +5,7 @@
       <Col span="23">
       <div class="nav-left">
           <div class="logo">
-              Brian's Blog
+              Kyos Wu
           </div>
       </div>
       <div class="nav-right">

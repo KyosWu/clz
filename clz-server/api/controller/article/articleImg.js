@@ -7,7 +7,7 @@ const formidable = require('formidable')
  * @param {object} 获取七牛云上传图片token
  * @return {token|null}  token
  */
-class AerticleImg {
+class ArticleImg {
     async getToken (ctx) {
         let accessKey = 'lnba53EkzuAaEbtRHhO_aSF8Gwqe3H1yPm5u05mh'  // 源码删除:七牛云获取 ak,必须配置
         let secretKey = 'phi6LaT9CgfwJvqLlVse5PVN953ThfMdAMjA7GTW'  // 源码删除:七牛云获取 sk, 必须配置
@@ -88,4 +88,4 @@ class AerticleImg {
     }
 }
 
-module.exports  = new AerticleImg();
+module.exports  = new ArticleImg();

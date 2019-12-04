@@ -46,6 +46,7 @@ Vue.component('Divider', Divider)
 Vue.prototype.$Notice = Notice
 Vue.prototype.$Message = Message
 Vue.prototype.$Modal = Modal
+
 /* eslint-disable no-new */
 router.beforeEach((to, from, next) => {
   // 如果router路由中存在标识符需要鉴权
@@ -64,7 +65,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+  // 访问 admin 跳转至system
+  if (to.name === 'admin') {
+    router.push({path: '/system'})
+  }
 })
+
 new Vue({
   el: '#app',
   router,

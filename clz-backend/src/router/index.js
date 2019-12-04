@@ -35,8 +35,8 @@ const router = new Router({
           meta: {requireAuth: true}
         },
         // 用户权限
-        { path: '/permission/adminList', component: Per.list, name: 'adminList', meta: {requireAuth: true} },
-        { path: '/permission/adminAdd', component: Per.add, name: 'adminAdd', meta: {requireAuth: true} },
+        { path: '/permission/adminList', name: 'adminList', component: Per.list, meta: {requireAuth: true} },
+        { path: '/permission/adminAdd', name: 'adminAdd', component: Per.add, meta: {requireAuth: true} },
         // 文章
         { path: '/article', name: 'article', component: Art.art, meta: {keepAlive: true, requireAuth: true} },
         { path: '/article/:id', name: 'update', component: Art.update, meta: {requireAuth: true} },

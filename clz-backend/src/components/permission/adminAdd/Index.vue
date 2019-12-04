@@ -31,61 +31,65 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    export default {
-        data() {
-            return {
-                info: {
-                    name: '',
-                    username: '',
-                    pwd: '',
-                    avatar: '',
-                    roles: ['default']
-                },
-                roles: [
-                    {label: '超级管理员', value: 'admin'},
-                    {label: '普通管理员', value: 'default'},
-                ],
-                loading: false,
-                rules: {
-                    name: [
-                        { required: true, message: '请填写名字', trigger: 'blur' }
-                    ],
-                    username: [
-                        { required: true, message: '请填写用户名', trigger: 'blur' }
-                    ],
-                    pwd: [
-                        { required: true, message: '请填写密码', trigger: 'blur' }
-                    ],
-                    roles: [
-                        { required: true, message: '请选择权限', trigger: 'change', type: 'array' }
-                    ]
-                }
-            }
-        },
-        methods: {
-            submitForm(formName) {
-                this.loading = true;
-                this.$refs[formName].validate( async (valid) => {
-                    if (valid) {
-                        try{
-                            await this.$store.dispatch('addUser', this.info);
-                            this.loading = false
-                            this.$router.push('/permission/adminList')
-                        }catch(e) {
-                            this.loading = false
-                        }
-                    } else {
-                        console.log('error submit!!');
-                        this.loading = false;
-                        return false;
-                    }
-                });
-            }
-        }
+import { Message } from 'element-ui'
+export default {
+  data () {
+    return {
+      info: {
+        name: '',
+        username: '',
+        pwd: '',
+        avatar: '',
+        roles: ['default']
+      },
+      roles: [
+        {label: '超级管理员', value: 'admin'},
+        {label: '普通管理员', value: 'default'}
+      ],
+      loading: false,
+      rules: {
+        name: [
+          { required: true, message: '请填写名字', trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: '请填写用户名', trigger: 'blur' }
+        ],
+        pwd: [
+          { required: true, message: '请填写密码', trigger: 'blur' }
+        ],
+        roles: [
+          { required: true, message: '请选择权限', trigger: 'change', type: 'array' }
+        ]
+      }
     }
+  },
+  methods: {
+    submitForm (formName) {
+      this.loading = true
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          // await this.$store.dispatch('addUser', this.info).then(
+          //   console.log('asfafff')
+          // )
+          this.$axios.post('/user/add', this.info).then((res) => {
+            const status = res.data
+            if (status.code === 353) {
+              this.loading = false
+              Message.warning('重复数据')
+            } else {
+              if (status.code === 'LIV') {
+                this.loading = false
+                Message.success('添加成功')
+                this.$router.push('/permission/adminList')
+              }
+            }
+          })
+        }
+      })
+    }
+  }
+}
 </script>
-
 
 <style lang="less" scoped>
     article {

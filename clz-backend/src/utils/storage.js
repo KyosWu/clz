@@ -62,8 +62,10 @@ class SessionStorage extends LocalStorage {
     this.storage = window.sessionStorage
   }
 }
+
 let session = new SessionStorage()
 let local = new LocalStorage()
+
 export {
   session,
   local

@@ -5,15 +5,15 @@
         <Col span="4" offset="20" style="float:right;margin-right:10%;margin-top:20%;">
           <Card>
             <p slot="title">欢迎登录</p>
-            <Input v-model="username" type="text" placeholder="请输入用户名" name="username">
+            <Input v-model="loginInfo.username" type="text" placeholder="请输入用户名" name="username">
               <span slot="prepend"><i class="icon iconfont icon-yonghu"></i></span>
             </Input>
             <br>
-            <Input v-model="password" type="password" placeholder="请输入密码" name="password">
+            <Input v-model="loginInfo.password" type="password" placeholder="请输入密码" name="password">
               <span slot="prepend"><i class="icon iconfont icon-mima"></i></span>
             </Input>
             <br>
-            <Button type="primary" long @click="login(username,password)">登录</Button>
+            <Button type="primary" long @click="user(loginInfo.username,loginInfo.password)">登录</Button>
           </Card>
         </Col>
       </Row>
@@ -24,16 +24,16 @@ import {mapState, mapMutations} from 'vuex'
 export default {
   data () {
     return {
-      username: '',
-      password: ''
+      loginInfo: {
+        username: '',
+        password: ''
+      }
     }
   },
   mounted () {
-    // 如果存在不需要重复登陆
-    let storage = window.sessionStorage
-    this.setUserName(storage.getItem('username'))
-    let store = this.$store.state.tokenName
-    if (!store) {
+    // 判断是否有token,如果存在且路由直接切到index,返回admin页面（system页面）
+    const setToken = sessionStorage.getItem('token')
+    if (!setToken) {
       this.$router.push({name: 'Index'})
     } else {
       this.$router.push({name: 'admin'})
@@ -42,16 +42,13 @@ export default {
   methods: {
     // 设置用户名vuex方法
     ...mapMutations(['setUserName']),
-    login (username, password) {
+    user (username, password) {
       let json = {username, password}
-      this.$axios.post('/login/login', json).then(res => {
-        let {error, username, msg} = res.data
+      this.$axios.post('/user/login', json).then(async res => {
+        let {error, msg} = res.data
         if (Object.is(error, 0)) {
-          // 初始化sessionStorage
-          let storage = window.sessionStorage
-          storage.setItem('username', username)
-          this.setUserName(storage.getItem('username'))
-          this.$router.push('/system')
+          await this.$store.dispatch('setBaseInfo', this.loginInfo)
+          this.$router.push({name: 'system'})
         } else if (Object.is(error, 1)) {
           this.error('用户名错误', msg, false)
         } else {

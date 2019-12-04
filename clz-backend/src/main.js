@@ -6,7 +6,7 @@ import 'iview/dist/styles/iview.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import axios from './utils/http'
-import store from '@/vuex/store'
+import store from '@/store/index'
 import commonPlugin from '@/plugins'
 
 // 引入element-ui组件
@@ -49,22 +49,23 @@ Vue.prototype.$Modal = Modal
 
 /* eslint-disable no-new */
 router.beforeEach((to, from, next) => {
-  // 如果router路由中存在标识符需要鉴权
-  if (to.meta.requireAuth) {
-    // 存在放行
-    if (store.state.tokenName) {
-      next()
-    } else {
-      let storage = window.sessionStorage
-      if (storage.getItem('username') != null) {
+  // 判断是否区登录页面
+  if (to.name === 'Index') {
+    next()
+  } else {
+    // 判断该路由是否需要登录权限
+    if (to.meta.requireAuth) {
+      const token = sessionStorage.getItem('token')
+      // 通过vuex state获取当前的token是否存在
+      if (token) {
         next()
-      } else {
-        next({path: '/error'})
+      }
+      if (!token) {
+        next({path: '/'})
       }
     }
-  } else {
-    next()
   }
+
   // 访问 admin 跳转至system
   if (to.name === 'admin') {
     router.push({path: '/system'})

@@ -9,8 +9,8 @@
             <el-form-item label="用户名" prop="username">
                 <el-input type="text" v-model="info.username"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="pwd">
-                <el-input type="password" v-model="info.pwd"></el-input>
+            <el-form-item label="密码" prop="password">
+                <el-input type="password" v-model="info.password"></el-input>
             </el-form-item>
             <el-form-item label="权限" prop="roles">
                 <!-- <el-input type="textarea" v-model="info.roles"></el-input> -->
@@ -38,13 +38,13 @@ export default {
       info: {
         name: '',
         username: '',
-        pwd: '',
+        password: '',
         avatar: '',
-        roles: ['default']
+        roles: ['user']
       },
       roles: [
         {label: '超级管理员', value: 'admin'},
-        {label: '普通管理员', value: 'default'}
+        {label: '普通管理员', value: 'user'}
       ],
       loading: false,
       rules: {
@@ -54,7 +54,7 @@ export default {
         username: [
           { required: true, message: '请填写用户名', trigger: 'blur' }
         ],
-        pwd: [
+        password: [
           { required: true, message: '请填写密码', trigger: 'blur' }
         ],
         roles: [
@@ -75,7 +75,7 @@ export default {
             const status = res.data
             if (status.code === 353) {
               this.loading = false
-              Message.warning('重复数据')
+              Message.warning('用户已存在')
             } else {
               if (status.code === 'LIV') {
                 this.loading = false

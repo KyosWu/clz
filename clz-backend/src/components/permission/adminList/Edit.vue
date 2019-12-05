@@ -35,67 +35,76 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    export default {
-        props: ['info'],
-        data() {
-            return {
-                roles: [
-                    {label: '超级管理员', value: 'admin'},
-                    {label: '普通管理员', value: 'default'},
-                ],
-                loading: false,
-                dialogTableVisible: true,
-                rules: {
-                    name: [
-                        { required: true, message: '请填写名字', trigger: 'blur' }
-                    ],
-                    username: [
-                        { required: true, message: '请填写用户名', trigger: 'blur' }
-                    ],
-                    old_pwd: [
-                        { required: true, message: '请填写原密码', trigger: 'blur' }
-                    ],
-                    pwd: [
-                        { required: true, message: '请填写密码', trigger: 'blur' }
-                    ],
-                    roles: [
-                        { required: true, message: '请选择权限', trigger: 'change', type: 'array' }
-                    ]
-                }
-            }
-        },
-        methods: {
-            close() {
-                this.$emit('close')
-            },
-            submitForm(formName) {
-                this.loading = true;
-                this.$refs[formName].validate( async (valid) => {
-                    if (valid) {
-                        try{
-                            delete this.info.createTime
-                            delete this.info.releaseTime
-                            await this.$store.dispatch('updateUser', this.info);
-                            this.loading = false
-                            this.$router.push('/permission/adminList')
-                            this.close()
-                        }catch(e) {
-                            this.info.pwd = ''
-                            this.info.old_pwd = ''
-                            this.loading = false
-                        }
-                    } else {
-                        console.log('error submit!!');
-                        this.loading = false;
-                        return false;
-                    }
-                });
-            }
-        }
+import { mapGetters } from 'vuex'
+export default {
+  // 父级的userinfo
+  props: ['info'],
+  data () {
+    return {
+      roles: [
+        {label: '普通管理员', value: 'user'},
+        {label: '超级管理员', value: 'admin'}
+      ],
+      loading: false,
+      dialogTableVisible: true,
+      rules: {
+        name: [
+          { required: true, message: '请填写名字', trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: '请填写用户名', trigger: 'blur' }
+        ],
+        old_pwd: [
+          { required: true, message: '请填写原密码', trigger: 'blur' }
+        ],
+        pwd: [
+          { required: true, message: '请填写密码', trigger: 'blur' }
+        ],
+        roles: [
+          { required: true, message: '请选择权限', trigger: 'change', type: 'array' }
+        ]
+      }
     }
-</script>
+  },
+  methods: {
+    close () {
+      this.$emit('close')
+    },
+    submitForm (formName) {
+      this.loading = true
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          this.$axios.post('/user/update', this.info).then((res) => {
+            this.loading = false
+            this.dialogTableVisible = false
+          })
+        }
+      })
+    }
+  }
+}
 
+/*          try {
+            // delete this.info.createTime
+            // delete this.info.releaseTime
+            // await this.$store.dispatch('updateUser', this.info)
+            this.$axios.post('/user/update', {params: this.info}).then((res) => {
+              console.log(res)
+            })
+            // this.loading = false
+            // this.$router.push('/permission/adminList')
+            this.close()
+          } catch (e) {
+            this.info.pwd = ''
+            this.info.old_pwd = ''
+            this.loading = false
+          }
+        } else {
+          console.log('error submit!!')
+          this.loading = false
+          return false
+        }*/
+</script>
 
 <style lang="less" scoped>
     article {

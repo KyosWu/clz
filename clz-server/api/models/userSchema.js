@@ -12,13 +12,16 @@ const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
     // user admin superAdmin
-    role: {
-        type: String,
-        default: 'user'
-    },
+    roles: [
+        {user: 'user',type: String},
+        {admin: 'admin',type: String}
+    ],
+    avatar: String,
     username: String,
+    name: String,
     email: String,
     password: String,
+    pwd: String,
     hashed_password: String,
     loginAttempts: {
         type: Number,
@@ -35,7 +38,8 @@ const userSchema = new Schema({
             type: Date,
             default: Date.now()
         }
-    }
+    },
+    status: 0
 })
 
 // 虚拟字段，不会被保存到数据库当中
@@ -51,7 +55,6 @@ userSchema.pre('save', function (next) {
     } else {
         this.meta.updatedAt = Date.now()
     }
-
     next()
 })
 

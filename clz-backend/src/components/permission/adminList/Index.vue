@@ -37,15 +37,17 @@
                           :key="index">{{tag}}
                     </el-tag>
                 </div>
-                <div v-else-if="scope.column.property === 'avatar'"><img :src="scope.row[scope.column.property]" alt="" style="height: 40px;"></div>
+                <div v-else-if="scope.column.property === 'avatar'">
+                  <img :src="scope.row[scope.column.property]" alt="" style="height: 40px;">
+                </div>
                 <div v-else>{{scope.row[scope.column.property] || '无'}}</div>
             </template>
         </el-table-column>
 
         <el-table-column label="操作" header-align="center" align="center" width="250">
             <template slot-scope="scope">
-            <el-button size="mini" @click="edit(scope)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="del(scope)">删除</el-button>
+              <el-button size="mini" @click="edit(scope)">编辑</el-button>
+              <el-button size="mini" type="danger" @click="del(scope, scope.$index, scope.row)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -143,16 +145,17 @@ export default {
     },
     async getUserList () {
       this.loading = true
+      // keyword: this.keyword,
       const data = {
-        keyword: this.keyword,
         pageindex: this.pageindex,
         pagesize: this.pagesize
       }
       this.$axios.post('/user/list', {params: data}).then((res) => {
-        console.log(res)
+        // 用户数据
         this.userList = res.data.data
-        this.userTotal = res.data.data.length
-        console.log(this.userTotal)
+        console.log(this.userList)
+        // 用户数目统计
+        this.userTotal = res.data.total
       })
 /*      try {
         await this.$store.dispatch('getUserList', {
@@ -165,16 +168,20 @@ export default {
         this.loading = false
       }*/
     },
-    del (scope) {
+    del (scope, index, id) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
         center: true
       }).then(async () => {
+        // 如何获取mongoose的ID值
         try {
-          await this.$store.dispatch('delUser', scope.row._id)
-          this.userList.splice(scope.$index, 1)
+          this.$axios.delete('/user/del', id).then((res) => {
+            console.log(res)
+            this.userList.splice(index, 1)
+          })
+          // await this.$store.dispatch('delUser', scope.row._id)
         } catch (e) {}
         this.$message({
           type: 'success',

@@ -11,6 +11,7 @@ const conf = require('../../config/config')
  *@return {session,info}
 */
 class User {
+    // 用户登录
     async login (ctx,next) {
         try{
             let req = ctx.request.body;
@@ -52,7 +53,6 @@ class User {
         let token = ctx.request.query.token;
         try {
             let tokenInfo = jwt.verify(token, conf.auth.admin_secret);
-            console.log(tokenInfo)
             ctx.body = {
                 username: tokenInfo.username,
                 name: tokenInfo.name,
@@ -72,15 +72,20 @@ class User {
     // 用户信息列表
     async list (ctx, next) {
         console.log('----------------获取用户信息列表接口 user/getUserList-----------------------');
-        let { keyword, pageindex, pagesize} = ctx.request.query;
-        console.log('keyword:'+keyword+','+'pageindex:'+pageindex +','+ 'pagesize:'+pagesize)
-
+        // console.log(ctx.request.body)
+        // console.log(ctx.request.body.params.pageindex)
+        let pageindex = ctx.request.body.params.pageindex;
+        let pagesize = ctx.request.body.params.pagesize;
         try {
             let skip = (pageindex-1)*pagesize;
             let limit = pagesize*1;
+            // 取status不为0的用户，这个判断要添加
             let data = await userModel.find().skip(skip).limit(limit)
+            // 统计条数
+            let total = await userModel.countDocuments({})
             ctx.body = {
-                data
+                data,
+                total
             }
         }catch (e){
             console.log(e)
@@ -91,10 +96,11 @@ class User {
     async add (ctx, next) {
         console.log('----------------添加管理员 user/add-----------------------');
         let paramsData = ctx.request.body;
+        console.log(paramsData)
         try {
             let data = await userModel.findOne({username: paramsData.name})
             if (data) {
-                console.log('数据已经存在, 请重新添加!')
+                console.log('用户已存在')
                 ctx.body = {
                     code: 353,
                 }
@@ -110,33 +116,36 @@ class User {
         }
     }
 
+    // 更新用户
+    // 问题实现更新
     async update (ctx, next) {
         console.log('----------------更新管理员 user/update-----------------------');
-        let paramsData = ctx.request.body;
-        console.log(paramsData)
-        try {
-            let data = await ctx.findOne(userModel, {name: paramsData.name})
-            if (paramsData.old_pwd !== data.pwd) {
-                return ctx.sendError('密码不匹配!')
-            }
-            delete paramsData.old_pwd
-            await ctx.update(userModel, {_id: paramsData._id}, paramsData)
-            ctx.send()
-        }catch(e) {
-            if (e === '暂无数据') {
-                ctx.sendError(e)
-            }
+        let id = ctx.request.body._id
+        let name = ctx.request.body.name
+        let username = ctx.request.body.username
+        let pwd = ctx.request.body.pwd
+        let roles = ctx.request.body.roles
+        // let newPwd = md5(md5(pwd).substr(3,8)+md5(pwd))
+        console.log(id,name,username,pwd,roles)
+        let a = await userModel.findByIdAndUpdate({_id: id},[{name: name},{username:username}, {password : pwd},{roles: roles}]);
+        ctx.body = {
+            a
         }
     }
 
+    // 需要建id字段
     async del (ctx, next) {
         console.log('----------------删除管理员 user/del-----------------------');
-        let id = ctx.request.query.id
+        console.log(ctx.request.body)
         try {
-            ctx.remove(userModel, {_id: id})
-            ctx.send()
+            // userModel.find({_id: id}).update({status: 0})
+            await userModel.remove({_id: id}).then(()=>{
+                ctx.body = {
+                    code: '615'
+                }
+            })
         }catch(e){
-            ctx.sendError(e)
+            ctx.body = e
         }
     }
 

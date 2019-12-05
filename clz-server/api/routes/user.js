@@ -5,7 +5,7 @@ const router = new Router({
 });
 
 const {
-    login,info,list,add
+    login,info,list,add,update,del
 } = require('../controller/user')
 
 
@@ -14,5 +14,8 @@ router.post('/login',login);
 router.post('/info',info);
 router.post('/list',list);
 router.post('/add',add);
+router.post('/update',update);
+router.delete('/del',del);
+
 
 module.exports = router;

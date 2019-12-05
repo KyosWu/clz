@@ -139,7 +139,7 @@ class User {
         console.log(ctx.request.body)
         try {
             // userModel.find({_id: id}).update({status: 0})
-            await userModel.remove({_id: id}).then(()=>{
+            await userModel.findByIdAndRemove({_id: id}).then(()=>{
                 ctx.body = {
                     code: '615'
                 }

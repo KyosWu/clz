@@ -13,6 +13,7 @@ class Article {
 		try{
 			let req = ctx.request.body;
 			let {title,htmlContent,date,des,original,radio} = req;
+			// radios 等于后台字段list
 			const front = await frontArticle.update({title},{$set:{title,content:htmlContent,time:date,des,original,list:radio}},{upsert:true});
 			let {ok} = front;
 			ctx.body = {
@@ -66,7 +67,7 @@ class Article {
 		try{
 			let req = ctx.request.query;
 			let {id} = req;
-			let result = await frontArticle.find({_id:id});
+			let result = await frontArticle.findOne({_id:id});
 			ctx.body = {
 				error:0,
 				info:result

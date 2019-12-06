@@ -43,6 +43,7 @@ Vue.component('Poptip', Poptip)
 Vue.component('Upload', Upload)
 Vue.component('i-Switch', Switch)
 Vue.component('Divider', Divider)
+
 Vue.prototype.$Notice = Notice
 Vue.prototype.$Message = Message
 Vue.prototype.$Modal = Modal

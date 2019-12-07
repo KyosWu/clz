@@ -34,6 +34,12 @@ const router = new Router({
           component: () => import(/* webpackChunkName: 'version' */ '@/components/admin/Version.vue'),
           meta: {requireAuth: true}
         },
+        {
+          path: '/socketio',
+          name: 'socketio',
+          component: () => import(/* webpackChunkName: 'version' */ '@/components/socketio/Socketio.vue'),
+          meta: {requireAuth: true}
+        },
         // 用户权限
         { path: '/permission/adminList', name: 'adminList', component: Per.list, meta: {requireAuth: true} },
         { path: '/permission/adminAdd', name: 'adminAdd', component: Per.add, meta: {requireAuth: true} },

@@ -19,11 +19,29 @@ var port = normalizePort(process.env.PORT || '4444');
  * Create HTTP server.
  */
 
-var server = http.createServer(app.callback());
+// var server = http.createServer(app.callback());
 
 /**
  * Listen on provided port, on all network interfaces.
  */
+// 建立socketio
+const server = require('http').Server(app.callback())
+// 如果前端链接成功,请求404,请添加如下代码
+var io = require('socket.io').listen(server);
+// 将socket和app关联
+io.attach(app)
+// 和客服端进行连接
+io.on('connection', socket=> {
+  console.log('socket初始化完成');
+  socket.on('news', data =>{
+    console.log(data, '接收到的信息')
+    console.log(data)
+  })
+  socket.on('disconnect', (socket) => {
+    console.log('data');
+  })
+})
+
 
 server.listen(port);
 server.on('error', onError);

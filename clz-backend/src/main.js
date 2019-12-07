@@ -13,6 +13,12 @@ import commonPlugin from '@/plugins'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import VueSocketIO from 'vue-socket.io'
+// Vue.use(new VueSocketIO({
+//   debug: true,
+//   connection: 'http://localhost:4444'
+// }))
+
 Vue.config.productionTip = false
 Vue.use(mavonEditor)
 Vue.use(commonPlugin)
@@ -50,6 +56,11 @@ Vue.prototype.$Modal = Modal
 
 /* eslint-disable no-new */
 router.beforeEach((to, from, next) => {
+  next()
+  Vue.use(new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:4444'
+  }))
   // 判断是否区登录页面
   if (to.name === 'Index') {
     next()

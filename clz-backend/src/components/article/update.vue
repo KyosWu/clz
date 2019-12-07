@@ -200,7 +200,7 @@ export default {
           'Accept': '*/*'
         }
       }).then(res => {
-        this.$refs.mavonEditor.$img2Url(pos, res.data.img)
+        console.log(res)
       })
     },
     imgDel (pos, file) {

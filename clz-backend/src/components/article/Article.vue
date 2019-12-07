@@ -7,30 +7,51 @@
 
     <label for="title" class="article">文章简介</label>
     <Input v-model="des" size="large" placeholder="在此输入文章标题" name="title" class="article_title"></Input>
+
+    <!--mavon 编辑器-->
+    <label for="title" class="article">文章内容</label>
+
     <mavon-editor ref="mavonEditor" @change="changeContent" class="article_content" v-model="content" fontSize="18px" @imgDel="imgDel" @imgAdd="imgAdd" placeholder="开始编写文章内容(上传图片为七牛云，删除功能暂无)..." style="min-height:600px;" />
     <Button type="success" class="article_button" @click="submitArticle">发布文章</Button>
   </Col>
   <Col span="4" offset="1" class="content_right">
+    <!--发布日期-->
     <Card class="card">
       <label for="date" class="article" slot="title">发布日期</label>
               <DatePicker @on-change="dateContent" :value="date" type="date" name="date" size="large" class="data_picker" placeholder="Select date" style="width:100%;"></DatePicker>
           </Card>
+    <!--分类目录-->
     <Card class="card">
               <p slot="title">分类目录</p>
       <RadioGroup v-model="radio" vertical>
             <Radio label="Front">
                 <i class="iconfont icon-h5"></i>
-                <span class="list_menu">前端开发</span>
+                <span class="list_menu">前端</span>
             </Radio>
-            <!--<Radio label="Back">-->
-                <!--<Icon class="iconfont icon-nodejs"></Icon>-->
-                <!--<span class="list_menu">后端开发</span>-->
-            <!--</Radio>-->
-            <!--<Radio label="about-me">-->
-                <!--<Icon class="iconfont icon-guanyuwomen"></Icon>-->
-                <!--<span class="list_menu">关于我</span>-->
-            <!--</Radio>-->
+            <Radio label="Back">
+                <Icon class="iconfont icon-nodejs"></Icon>
+                <span class="list_menu">后端开发</span>
+            </Radio>
+            <Radio label="about-me">
+                <Icon class="iconfont icon-guanyuwomen"></Icon>
+                <span class="list_menu">关于我</span>
+            </Radio>
         </RadioGroup>
+    </Card>
+    <!-- 新增字段 -->
+    <!--文章来源-->
+    <Card class="card">
+      <p slot="title">文章来源</p>
+      <RadioGroup v-model="source" vertical>
+        <Radio label="Original">
+          <i class="iconfont icon-h5"></i>
+          <span class="list_menu">原创</span>
+        </Radio>
+        <Radio label="Reprint">
+          <Icon class="iconfont icon-nodejs"></Icon>
+          <span class="list_menu">转载</span>
+        </Radio>
+      </RadioGroup>
     </Card>
   </Col>
 </Row>

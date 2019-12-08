@@ -89,7 +89,7 @@ export default {
             // delete this.info.releaseTime
             // await this.$store.dispatch('updateUser', this.info)
             this.$axios.post('/user/update', {params: this.info}).then((res) => {
-              console.log(res)
+              console.logs(res)
             })
             // this.loading = false
             // this.$router.push('/permission/adminList')
@@ -100,7 +100,7 @@ export default {
             this.loading = false
           }
         } else {
-          console.log('error submit!!')
+          console.logs('error submit!!')
           this.loading = false
           return false
         }*/

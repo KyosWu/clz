@@ -9,16 +9,25 @@ import axios from './utils/http'
 import store from '@/store/index'
 import commonPlugin from '@/plugins'
 
-// 引入element-ui组件
+// 引入element-ui
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
+// 引入echarts
+import echarts from 'echarts'
+// 引入vue-socket.io
 import VueSocketIO from 'vue-socket.io'
+// 必须原型链上添加
+Vue.prototype.$echarts = echarts
+
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://localhost:4444',
+  // connection: 'http://localhost:4444/',
+  connection: 'http://localhost:4444/',
   vuex: {
     store,
+    options: {
+      useConnectionNamespace: true
+    },
     actionPrefix: 'SOCKET_',
     mutationPrefix: 'SOCKET_'
   }
@@ -28,7 +37,10 @@ Vue.config.productionTip = false
 Vue.use(mavonEditor)
 Vue.use(commonPlugin)
 Vue.use(axios)
+// 引入element-ui
 Vue.use(Element)
+// 引入echarts
+Vue.use(echarts)
 
 Vue.component('Button', Button)
 Vue.component('Row', Row)

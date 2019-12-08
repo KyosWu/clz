@@ -69,7 +69,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           // await this.$store.dispatch('addUser', this.info).then(
-          //   console.log('asfafff')
+          //   console.logs('asfafff')
           // )
           this.$axios.post('/user/add', this.info).then((res) => {
             const status = res.data

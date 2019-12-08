@@ -17,12 +17,7 @@ module.exports = {
         pathRewrite: {
           '^/api': '' // 重写接口,后面可以使重写的新路径，一般不做更改
         }
-      },
-      // '/socket.io': {
-      //   target: 'http://127.0.0.1:4444/socket.io/', // target host
-      //   changeOrigin: true, // needed for virtual hosted sites
-      //   logLevel: 'debug'
-      // }
+      }
     },
 
     // Various Dev Server settings

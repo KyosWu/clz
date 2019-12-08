@@ -61,7 +61,7 @@ const user = {
           commit('SET_USERINFO', res.data)
           resolve(res)
         }).catch(err => {
-          // console.log(err)
+          // console.logs(err)
           reject(err)
         })
       })
@@ -72,7 +72,7 @@ const user = {
           commit('USERLIST', res.data)
           resolve(res)
         }).catch(err => {
-          // console.log(err)
+          // console.logs(err)
           reject(err)
         })
       })

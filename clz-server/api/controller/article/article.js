@@ -42,8 +42,8 @@ class Article {
 			let page = parseInt((req.page-1) * req.pagesize);
 			let pagesize = parseInt(req.pagesize);
 			console.log(page);
-			let list =await frontArticle.find({},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
-			let count =await frontArticle.count({});
+			let list = await frontArticle.find({},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
+			let count = await frontArticle.count({});
 			ctx.body = {
 				error:0,
 				count,

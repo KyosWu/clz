@@ -134,12 +134,12 @@ export default {
       this.getUserList()
     },
     handleSizeChange (val) {
-      // console.log(`每页 ${val} 条`);
+      // console.logs(`每页 ${val} 条`);
       this.pagesize = val
       this.getUserList()
     },
     handleCurrentChange (val) {
-      // console.log(`当前页: ${val}`);
+      // console.logs(`当前页: ${val}`);
       this.pageindex = val
       this.getUserList()
     },

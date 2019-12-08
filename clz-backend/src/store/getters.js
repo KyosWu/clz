@@ -7,6 +7,8 @@ const getters = {
 
   blogTypes: state => state.blog.blogTypes,
   blogList: state => state.blog.list,
-  blogTotal: state => state.blog.total
+  blogTotal: state => state.blog.total,
+
+  userInfo: state => state.socket.usersInfo
 }
 export default getters

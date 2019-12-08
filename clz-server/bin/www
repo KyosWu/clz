@@ -3,82 +3,76 @@
 /**
  * Module dependencies.
  */
+const app = require('../app');
+const debug = require('debug')('demo:server');
+const http = require('http');
 
-var app = require('../app');
-var debug = require('debug')('demo:server');
-var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || '4444');
+const port = normalizePort(process.env.PORT || '4444');
 // app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
-// var server = http.createServer(app.callback());
+const server = http.createServer(app.callback());
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-import user from '../api/controller/user'
-// 建立socketio
-const server = require('http').Server(app.callback())
+// const server = require('http').Server(app.callback())
 // 如果前端链接成功,请求404,请添加如下代码
-var io = require('socket.io').listen(server);
+const io = require('socket.io').listen(server);
+const user = require('../api/models/userSchema')
 // 将socket和app关联
 io.attach(app)
 // 和客服端进行连接
 io.on('connection', socket=> {
   console.log('socket初始化完成');
   // 监听断开连接
-  socket.on('disconnect', (socket) => {
+  socket.on('disconnect', data => {
     console.log('后端:连接断开了');
   })
+  socket.on('isSocket', data => {
+    console.log(data)
+  })
 
+  // 定义变量
+  const date = new Date()
+
+  // 监听news
   socket.on('news', data => {
-    console.log('后端:', data)
-    io.emit('info', '后端知道了，console一下提醒')
+    console.log('后端:', data + date)
+    let rdata = data + date
+    io.emit('rnews', rdata)
+  })
+  // 监听info
+  socket.on('info', data => {
+    console.log('info:', data + date)
+    let rdata = data + date
+    io.emit('rinfo', rdata)
+  })
+  // socket 按钮点击反馈事件
+  socket.on('clickBtn', data => {
+    console.log('clickBtn:', data + date)
+    let rdata = data + date
+    io.emit('rclickBtn', rdata)
+  })
+  // 获取所有用户信息
+  socket.on('userInfo', async (ctx, data) => {
+    // 指定不显示写法
+    // let sql = await user.find({},{_id: 0,password: 0, meta: 0, loginAttempts: 0},(err, doc)=>{
+    //   console.logs(doc)
+    // })
+    // 指定显示写法
+    let sql = await user.find({},{username: 1, role: 1, avatar: 1},(err, doc)=>{
+      console.log('/*获取用户信息*/', date, doc)
+    })
+    io.emit("ruserInfo", sql)
   })
 
-  socket.on('info',data => {
-    console.log('info:', data)
-  })
-
-  socket.on("message", function(obj) {
-    // 调用后端函数，看下能不能封装下
-    user.list()
-/*    let sql="select FIRST_ from act_id_user";
-    let resultStr,resultjson;
-    conn.query(sql, function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      if (result) {
-        resultjson = JSON.stringify(result);
-        resultStr=resultjson;
-        io.emit("message", resultjson);
-      }*/
-    });
-
-    setInterval(function(){
-      conn.query(sql, function(err, result) {
-        if (err) {
-          console.log(err);
-        }
-        if (result) {
-          resultjson = JSON.stringify(result);
-          if(resultStr!==resultjson){
-            resultStr=resultjson;
-            io.emit("message", resultStr);
-          }
-        }
-      })
-    },3000)
 })
 
 

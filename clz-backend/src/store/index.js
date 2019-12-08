@@ -11,6 +11,7 @@ import user from './modules/user'
 // import permission from './modules/permission'
 // import blog from './modules/blog'
 // import markdown from './modules/markdown'
+import socket from './modules/socket'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
   mutations,
   actions,
   modules: {
-    user
+    user,
+    socket
   }
 })
 

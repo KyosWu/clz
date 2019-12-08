@@ -72,8 +72,8 @@ class User {
     // 用户信息列表
     async list (ctx, next) {
         console.log('----------------获取用户信息列表接口 user/getUserList-----------------------');
-        // console.log(ctx.request.body)
-        // console.log(ctx.request.body.params.pageindex)
+        // console.logs(ctx.request.body)
+        // console.logs(ctx.request.body.params.pageindex)
         let pageindex = ctx.request.body.params.pageindex;
         let pagesize = ctx.request.body.params.pagesize;
         try {

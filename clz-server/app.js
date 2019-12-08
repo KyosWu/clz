@@ -1,27 +1,13 @@
 const Koa = require('koa')
 const app = new Koa()
 
+const { access } = require('./utils/log')
+
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
-// socket.io
-const server = require('http').Server(app.callback())
-const io = require('socket.io')(server);
-
-io.on('connection', socket=> {
-    console.log('socket初始化完成');
-    socket.on('news', data =>{
-        console.log(data, '接收到的信息')
-        console.log(data)
-    })
-    socket.on('disconnect', (socket) => {
-        console.log('data');
-    })
-})
-
 
 // 导入mongodb 连接信息 否则无法联通数据库
 const db = require('./config/db')
@@ -72,6 +58,10 @@ app.use(async (ctx, next) => {
 app.use(cors())
 InitManager.initCore(app)
 
+
+const serverHandle =  (ctx) => {
+    access(`${ctx.method} -- ${ctx.url} -- ${ctx.header['user-agent']} -- ${Date.now()}`)
+}
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

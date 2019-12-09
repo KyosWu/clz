@@ -47,7 +47,7 @@
         <el-table-column label="操作" header-align="center" align="center" width="250">
             <template slot-scope="scope">
               <el-button size="mini" @click="edit(scope)">编辑</el-button>
-              <el-button size="mini" type="danger" @click="del(scope, scope.$index, scope.row)">删除</el-button>
+              <el-button size="mini" type="danger" @click="del(scope, scope.$index, scope.row._id)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -169,12 +169,16 @@ export default {
       }*/
     },
     del (scope, index, id) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      console.log(id)
+      this.$axios.post('/user/del', {params: {id: id}}).then((res) => {
+        this.userList.splice(index, 1)
+      })
+/*      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
         center: true
-      }).then(async () => {
+      }).then(async (scope, index, id) => {
         // 如何获取mongoose的ID值
         try {
           this.$axios.delete('/user/del', id).then((res) => {
@@ -192,7 +196,7 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
-      })
+      })*/
     },
     edit (scope) {
       this.editShow = true

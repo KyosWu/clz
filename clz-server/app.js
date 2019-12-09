@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const app = new Koa()
 
-const { access } = require('./utils/log')
+// const { access } = require('./utils/log')
 
 const views = require('koa-views')
 const json = require('koa-json')

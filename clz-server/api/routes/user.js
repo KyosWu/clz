@@ -15,7 +15,7 @@ router.post('/info',info);
 router.post('/list',list);
 router.post('/add',add);
 router.post('/update',update);
-router.delete('/del',del);
+router.post('/del',del);
 
 
 module.exports = router;

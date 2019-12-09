@@ -48,6 +48,7 @@ class User {
         }
     }
 
+
     async info (ctx, next) {
         console.log('----------------获取用户信息接口 user/getUserInfo-----------------------');
         let token = ctx.request.query.token;
@@ -72,8 +73,6 @@ class User {
     // 用户信息列表
     async list (ctx, next) {
         console.log('----------------获取用户信息列表接口 user/getUserList-----------------------');
-        // console.logs(ctx.request.body)
-        // console.logs(ctx.request.body.params.pageindex)
         let pageindex = ctx.request.body.params.pageindex;
         let pagesize = ctx.request.body.params.pagesize;
         try {
@@ -96,7 +95,6 @@ class User {
     async add (ctx, next) {
         console.log('----------------添加管理员 user/add-----------------------');
         let paramsData = ctx.request.body;
-        console.log(paramsData)
         try {
             let data = await userModel.findOne({username: paramsData.name})
             if (data) {
@@ -105,6 +103,10 @@ class User {
                     code: 353,
                 }
             }else{
+                // 密码加密
+                let pwd = paramsData.password
+                let newPwd = md5(md5(pwd).substr(3,8)+md5(pwd))
+                paramsData.password =newPwd
                 let data = await userModel.insertMany(paramsData);
                 ctx.body = {
                     code: 'LIV',
@@ -117,26 +119,26 @@ class User {
     }
 
     // 更新用户
-    // 问题实现更新
     async update (ctx, next) {
         console.log('----------------更新管理员 user/update-----------------------');
-        let id = ctx.request.body._id
-        let name = ctx.request.body.name
-        let username = ctx.request.body.username
         let pwd = ctx.request.body.pwd
-        let roles = ctx.request.body.roles
-        // let newPwd = md5(md5(pwd).substr(3,8)+md5(pwd))
-        console.log(id,name,username,pwd,roles)
-        let a = await userModel.findByIdAndUpdate({_id: id},[{name: name},{username:username}, {password : pwd},{roles: roles}]);
-        ctx.body = {
-            a
+        let newPwd = md5(md5(pwd).substr(3,8)+md5(pwd))
+        ctx.request.body.pwd = newPwd
+        try {
+            let updateUser = await userModel.findByIdAndUpdate(ctx.request.body._id,ctx.request.body);
+            ctx.body = {
+                updateUser
+            }
+        } catch(e) {
+            ctx.throw(353, e)
         }
+
     }
 
-    // 需要建id字段
+    // 根据id字段，删除用户
     async del (ctx, next) {
         console.log('----------------删除管理员 user/del-----------------------');
-        console.log(ctx.request.body)
+        let id = ctx.request.body.params.id
         try {
             // userModel.find({_id: id}).update({status: 0})
             await userModel.findByIdAndRemove({_id: id}).then(()=>{

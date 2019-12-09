@@ -19,10 +19,11 @@ const port = normalizePort(process.env.PORT || '4444');
  */
 const server = http.createServer(app.callback());
 
+
 /**
  * Listen on provided port, on all network interfaces.
  */
-// const server = require('http').Server(app.callback())
+
 // 如果前端链接成功,请求404,请添加如下代码
 const io = require('socket.io').listen(server);
 const user = require('../api/models/userSchema')

@@ -11,7 +11,17 @@ const articleSchema = new Schema({
 	list:String,
     banner: String,
     imgFileName: String,
-    comment: []
+    comment: [],
+	meta: {
+		createdAt: {
+			type: Date,
+			default: Date.now()
+		},
+		updatedAt: {
+			type: Date,
+			default: Date.now()
+		}
+	},
 });
 
 

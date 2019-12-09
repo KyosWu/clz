@@ -73,7 +73,7 @@ Vue.prototype.$Modal = Modal
 
 /* eslint-disable no-new */
 router.beforeEach((to, from, next) => {
-  // 判断是否区登录页面
+  // 判断是否在登录页面
   if (to.name === 'Index') {
     next()
   } else {
@@ -87,6 +87,9 @@ router.beforeEach((to, from, next) => {
       if (!token) {
         next({path: '/'})
       }
+    } else {
+      // 必须加next 否则404页面无法显示
+      next()
     }
   }
 

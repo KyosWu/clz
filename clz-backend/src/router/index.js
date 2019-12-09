@@ -6,62 +6,67 @@ import Art from './article'
 Vue.use(Router)
 
 const router = new Router({
-  // mode:'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'Index',
-      component: () => import(/* webpackChunkName: 'index' */ '@/views/Index'),
+      component: () => import('@/views/Index'),
       meta: {requireAuth: false}
     },
     {
       path: '/admin',
-      component: () => import(/* webpackChunkName: 'admin' */ '@/views/admin.vue'),
+      component: () => import('@/views/admin.vue'),
       name: 'admin',
-      meta: {requireAuth: true},
+      meta: {requireAuth: true, title: 'dashboard'},
       children: [
         // system
         {
           path: '/system',
           name: 'system',
-          component: () => import(/* webpackChunkName: 'Admin-index' */ '@/components/admin/Admin-index.vue'),
-          meta: {requireAuth: true}
+          component: () => import('@/components/admin/Admin-index.vue'),
+          meta: {requireAuth: true, title: '系统概览'}
         },
         // 版本控制
         {
           path: '/version',
           name: 'version',
-          component: () => import(/* webpackChunkName: 'version' */ '@/components/admin/Version.vue'),
-          meta: {requireAuth: true}
+          component: () => import('@/components/admin/Version.vue'),
+          meta: {requireAuth: true, title: '版本'}
         },
         {
           path: '/socketio',
           name: 'socketio',
-          component: () => import(/* webpackChunkName: 'version' */ '@/components/socketio/Socketio.vue'),
-          meta: {requireAuth: true}
+          component: () => import('@/components/socketio/Socketio.vue'),
+          meta: {requireAuth: true, title: 'socketIo'}
         },
         // 用户权限
-        { path: '/permission/adminList', name: 'adminList', component: Per.list, meta: {requireAuth: true} },
-        { path: '/permission/adminAdd', name: 'adminAdd', component: Per.add, meta: {requireAuth: true} },
+        { path: '/permission/adminList', name: 'adminList', component: Per.list, meta: {requireAuth: true, title: '管理员列表'} },
+        { path: '/permission/adminAdd', name: 'adminAdd', component: Per.add, meta: {requireAuth: true, title: '添加管理员'} },
         // 文章
-        { path: '/article', name: 'article', component: Art.art, meta: {keepAlive: true, requireAuth: true} },
-        { path: '/article/:id', name: 'update', component: Art.update, meta: {requireAuth: true} },
-        { path: 'list', name: 'articleList', component: Art.list, meta: {requireAuth: true} },
+        { path: '/article', name: 'article', component: Art.art, meta: {keepAlive: true, requireAuth: true, title: '写文章'} },
+        { path: '/article/:id', name: 'update', component: Art.update, meta: {keepAlive: true, requireAuth: true, title: '修改文章'} },
+        { path: 'list', name: 'articleList', component: Art.list, meta: {keepAlive: true, requireAuth: true, title: '文章列表'} },
         // 评论
         {
           path: '/comment',
           name: 'comment',
-          component: () => import(/* webpackChunkName: 'version' */ '@/components/admin/Comment.vue'),
-          meta: {requireAuth: true}
+          component: () => import('@/components/admin/Comment.vue'),
+          meta: {requireAuth: true, title: '评论管理'}
         }
       ]
     },
     {
+      path: '/NoFound',
+      name: 'NoFound',
+      component: () => import('@/components/NoFound.vue'),
+      meta: {requireAuth: false, title: '404未找到'}
+    },
+    {
       path: '*',
-      component: () => import(/* webpackChunkName: 'noFound' */ '@/components/NoFound.vue'),
-      meta: {
-        title: '404未找到'
-      }
+      redirect: '/NoFound',
+      name: '404',
+      hidden: true
     }
   ]
 })

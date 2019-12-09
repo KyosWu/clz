@@ -23,6 +23,8 @@ const router = new Router({
 const {
     insertArticle,
     getArticle,
+    getAllArticle,
+    getArticleSearchTopList,
     articleInfo,
     uploadFile,
     deleteFile,
@@ -32,13 +34,14 @@ const {
 // 文章
 /*插入文章接口*/
 router.post('/insertFront',insertArticle);
-// router.post('/article/insertBack',backArticle.insertArticle);
 /*查询文章接口*/
 router.get('/getFrontArticle',getArticle);
-// router.get('/article/getBackArticle',backArticle.getArticle);
+/*查询搜索对应关键词文章*/
+router.get('/getAllArticle',getAllArticle);
+/*查询搜索，前5篇文章接口*/
+router.get('/getTopArticle',getArticleSearchTopList);
 /*文章详情接口*/
 router.get('/getFrontArticleInfo',articleInfo);
-// router.get('/article/getBackArticleInfo',backArticle.articleInfo);
 /*上传接口*/
 router.post('/upload',upload.single('file'), uploadFile);
 /*删除图片接口*/

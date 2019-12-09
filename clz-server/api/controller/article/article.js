@@ -9,6 +9,7 @@ const fs = require('fs');
 */
 
 class Article {
+	// 添加新文章
 	async insertArticle (ctx){
 		try{
 			let req = ctx.request.body;
@@ -35,13 +36,13 @@ class Article {
 	 *@return {object} return article list 按时间排序
 	 */
 
+	// 分页获取文章
 	async getArticle (ctx, next) {
 		try{
 			let req = ctx.request.query;
 			let { parseInt } = Number;
 			let page = parseInt((req.page-1) * req.pagesize);
 			let pagesize = parseInt(req.pagesize);
-			console.log(page);
 			let list = await frontArticle.find({},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
 			let count = await frontArticle.count({});
 			ctx.body = {
@@ -54,6 +55,32 @@ class Article {
 				error:1,
 				info:e
 			}
+		}
+	}
+
+	// 获取全部文章--暂时只根据文章标题
+	async getAllArticle (ctx, next) {
+		let title = ctx.request.query.title
+		console.log(title)
+		const data = await frontArticle.find({title: title})
+		ctx.body = {
+			data
+		}
+	}
+
+	// 获取前5篇文章文章
+	async getArticleSearchTopList (ctx, next) {
+		console.log('-----获取前几篇文章文章-----')
+		console.log(ctx.request.query.page)
+		let page = parseInt(ctx.request.query.page)
+		try {
+			const data = await frontArticle.find({},{title:1}).limit(page).sort({createdAt:1})
+			ctx.body = {
+				data
+			}
+			console.log(data)
+		} catch(e) {
+			ctx.body = e
 		}
 	}
 
@@ -87,6 +114,7 @@ class Article {
 	 *@return {object} return upload list
 	 */
 
+	// 上传文件功能
 	async uploadFile (ctx) {
 		try {
 			let req = ctx.req.body;
@@ -128,6 +156,7 @@ class Article {
 	 *@param {string|null} radio
 	 *@return {object} return deleteFile
 	 */
+	// 删除文章
 	async deleteFile (ctx) {
 		try {
 			let request = ctx.request.body

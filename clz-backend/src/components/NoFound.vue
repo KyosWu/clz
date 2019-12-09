@@ -1,12 +1,13 @@
 <template>
   <div>
+
     <Row type="flex" justify="center" align="middle" class="error_box">
       <!-- 左侧 -->
       <Col span="18">
         <div class="error_logo"></div>
     </Col>
     <Col span="18">
-      <div class="error_text">未经管理员授权禁止访问授权地址！</div>
+      <div class="error_text">小子！没有酱页面啦！！！</div>
       <div class="error_text error_back"><router-link :to="{path:'/'}">返回首页</router-link></div>
     </Col>
     </Row>
@@ -19,7 +20,7 @@
       width:800px;
       height:155px;
       margin:0 auto;
-      background:url('#/images/stop.png') no-repeat;
+      background:url('../assets/images/svg/morty.svg') no-repeat;
       background-size:cover;
       background-position:center center;
     }
@@ -39,3 +40,4 @@
     }
   }
 </style>
+

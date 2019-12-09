@@ -1,20 +1,22 @@
 <template>
   <div>
     <nav-header></nav-header>
-    <Row type="flex" justify="space-between" style="min-width:1200px;">
-        <Col span="3">
-            <nav-left class="navleft"></nav-left>
-        </Col>
-        <Col span="21" class="routerView">
-            <router-view></router-view>
-        </Col>
-    </Row>
+    <el-row type="flex" justify="space-between" style="min-width:1200px;">
+        <el-col :span="3">
+          <nav-left class="navleft"></nav-left>
+        </el-col>
+        <el-col :span="21" class="routerView">
+          <tags-View></tags-View>
+          <router-view></router-view>
+        </el-col>
+    </el-row>
 
   </div>
 </template>
 <script>
 import NavHeader from '@/components/admin/NavHeader'
 import NavLeft from '@/components/admin/NavLeft'
+import tagsView from '@/components/common/tagsView/Index'
 export default {
   data () {
     return {
@@ -23,7 +25,8 @@ export default {
   },
   components: {
     NavHeader,
-    NavLeft
+    NavLeft,
+    tagsView
   }
 }
 </script>

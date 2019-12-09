@@ -4,9 +4,11 @@
         <el-input placeholder="请输入内容"
                   prefix-icon="el-icon-search"
                   v-model="keyword"
-                  @keydown.enter.native="getUserList">
+                  clearable
+                  @keydown.enter.native="searchUser"
+                  @blur="searchUser">
         </el-input>
-        <el-button type="primary" icon="el-icon-search" :loading="loading" @click="getUserList">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" :loading="loading" @click="searchUser">搜索</el-button>
     </div>
 
     <el-table ref="multipleTable" :data="userList" tooltip-effect="dark" stripe border>
@@ -143,14 +145,21 @@ export default {
       this.pageindex = val
       this.getUserList()
     },
+    // 搜索用户
+    async searchUser (keyword) {
+      this.loading = true
+      await this.getUserList().then(
+        this.loading = false
+      )
+    },
     async getUserList () {
       this.loading = true
-      // keyword: this.keyword,
       const data = {
+        keyword: this.keyword,
         pageindex: this.pageindex,
         pagesize: this.pagesize
       }
-      this.$axios.post('/user/list', {params: data}).then((res) => {
+      await this.$axios.post('/user/list', {params: data}).then((res) => {
         // 用户数据
         this.userList = res.data.data
         console.log(this.userList)
@@ -169,7 +178,6 @@ export default {
       }*/
     },
     del (scope, index, id) {
-      console.log(id)
       this.$axios.post('/user/del', {params: {id: id}}).then((res) => {
         this.userList.splice(index, 1)
       })

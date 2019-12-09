@@ -33,32 +33,31 @@ const filterAsyncRouter = (asyncRouterMap, roles) => {
 }
 
 const permission = {
-    state: {
-        routes: constantRouterMap.concat(asyncRouterMap),
-        addRouters: []
-    },
-    mutations: {
-        SETROUTES(state, routers) {
-            state.addRouters = routers;
-            state.routes = constantRouterMap.concat(routers);
-        }
-    },
-    actions: {
-        setRoutes({ commit }, info) {
-            return new Promise( (resolve, reject) => {
-                let {roles} = info;
-                let accessedRouters = [];
-                if (roles.indexOf('admin') >= 0) {
-                    accessedRouters = asyncRouterMap;
-                }else{
-                    accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-                }
-
-                commit('SETROUTES', accessedRouters)
-                resolve()
-            })
-        }
-
+  state: {
+    routes: [],
+    addRouters: []
+  },
+  mutations: {
+    SETROUTES (state, routers) {
+      state.addRouters = routers
+      state.routes = constantRouterMap.concat(routers)
     }
+  },
+  actions: {
+    setRoutes ({ commit }, info) {
+        return new Promise ((resolve, reject) => {
+            let {roles} = info
+            let accessedRouters = []
+            if (roles.indexOf('admin') >= 0) {
+                accessedRouters = asyncRouterMap;
+            }else{
+                accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+            }
+
+            commit('SETROUTES', accessedRouters)
+            resolve()
+        })
+    }
+  }
 }
 export default permission

@@ -70,16 +70,24 @@ class User {
         }
     }
 
+
     // 用户信息列表
     async list (ctx, next) {
         console.log('----------------获取用户信息列表接口 user/getUserList-----------------------');
+        let keyword = ctx.request.body.params.keyword;
         let pageindex = ctx.request.body.params.pageindex;
         let pagesize = ctx.request.body.params.pagesize;
         try {
+            let reg = new RegExp(keyword, 'i')
             let skip = (pageindex-1)*pagesize;
             let limit = pagesize*1;
-            // 取status不为0的用户，这个判断要添加
-            let data = await userModel.find().skip(skip).limit(limit)
+            let data = await userModel.find({
+                $or: [
+                    {name: { $regex: reg}},
+                    {username: { $regex: reg}},
+                    {roles: { $regex: reg}}
+                ]
+            }).skip(skip).limit(limit)
             // 统计条数
             let total = await userModel.countDocuments({})
             ctx.body = {

@@ -1,0 +1,4 @@
+2019-12-10 23:07:37: Tue, 10 Dec 2019 15:07:37 GMT koa deprecated Support for generators will be removed in v3. See the documentation for examples of how to convert old middleware https://github.com/koajs/koa/blob/master/docs/migration.md at app.js:90:5
+2019-12-10 23:07:40: (node:10432) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+2019-12-10 23:07:40: [WARN] Redis server does not require a password, but a password was supplied.
+2019-12-10 23:09:26: (node:10432) DeprecationWarning: collection.count is deprecated, and will be removed in a future version. Use Collection.countDocuments or Collection.estimatedDocumentCount instead

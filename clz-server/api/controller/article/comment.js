@@ -13,6 +13,7 @@ const geetClick = require('../../../geet/click');
  */
 
 class Comment {
+    // 存储评论信息
     async insertComment (ctx) {
         try {
             let request = ctx.request.body;
@@ -88,12 +89,15 @@ class Comment {
      * @param {object} id
      * @return {object|null}  commentsLists
      */
+    // 获取用户id, 用户请求的header
     getUserIp (req){
         return req.headers['x-forwarded-for'] ||
             req.connection.remoteAddress ||
             req.socket.remoteAddress ||
             req.connection.socket.remoteAddress;
     }
+
+    // 获取文章评论
     async articleComments (ctx) {
         try {
             let request = ctx.request.body;
@@ -114,6 +118,7 @@ class Comment {
      * @return {object|null}  comments Lists
      */
 
+    // 文章评论列表
     async commentsList (ctx) {
         try {
             let req = ctx.request.body;
@@ -140,6 +145,7 @@ class Comment {
      * @return {object|null}  comment config
      */
 
+    //
     async commentConfig (ctx) {
         try {
             let request = ctx.request.body

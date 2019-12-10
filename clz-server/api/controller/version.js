@@ -55,6 +55,7 @@ class Version {
 		var date = new Date(strTime);
 		return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 	}
+
 }
 
 module.exports = new Version();

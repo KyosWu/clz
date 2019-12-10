@@ -12,7 +12,7 @@ push github公用仓库需要删除七牛云ak sk 目前未删除
 │   ├── md5.js                          加密模块/改造加密算法
 │   ├── ...
 ├── models/                             处理应用程序数据逻辑的部分
-│   ├── db.js                           封装公用调用数据库模块
+│   ├── mongoDB.js                           封装公用调用数据库模块
 │   ├── backArticleSchema.js            后端文章集合Schema
 │   ├── ...
 ├── plulic/                             存放静态资源目录

@@ -12,17 +12,11 @@ const articleSchema = new Schema({
     banner: String,
     imgFileName: String,
     comment: [],
-	meta: {
-		createdAt: {
-			type: Date,
-			default: Date.now()
-		},
-		updatedAt: {
-			type: Date,
-			default: Date.now()
-		}
-	},
-});
+	status: {
+		type: Number,
+		default: 1
+	}
+},{timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
 module.exports = model('frontArticle',articleSchema);

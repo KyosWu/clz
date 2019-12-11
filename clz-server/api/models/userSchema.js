@@ -29,18 +29,11 @@ const userSchema = new Schema({
         default: 0
     },
     lockUntil: Number,
-    meta: {
-        createdAt: {
-            type: Date,
-            default: Date.now()
-        },
-        updatedAt: {
-            type: Date,
-            default: Date.now()
-        }
-    },
-    status: 0
-})
+    status: {
+        type: Number,
+        default: 1
+    }
+},{timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 // 虚拟字段，不会被保存到数据库当中
 userSchema.virtual('isLocked').get(function () {

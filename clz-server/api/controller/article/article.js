@@ -15,7 +15,7 @@ class Article {
 			let req = ctx.request.body;
 			let {title,htmlContent,date,des,original,radio} = req;
 			// radios 等于后台字段list
-			const front = await frontArticle.update({title},{$set:{title,content:htmlContent,time:date,des,original,list:radio}},{upsert:true});
+			const front = await frontArticle.update({title},{$set:{title,content:htmlContent,time:date,des,original,list:radio,status: 1}},{upsert:true});
 			let {ok} = front;
 			ctx.body = {
 				error:0,
@@ -43,7 +43,7 @@ class Article {
 			let { parseInt } = Number;
 			let page = parseInt((req.page-1) * req.pagesize);
 			let pagesize = parseInt(req.pagesize);
-			let list = await frontArticle.find({},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
+			let list = await frontArticle.find({status:1},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
 			let count = await frontArticle.count({});
 			ctx.body = {
 				error:0,
@@ -62,7 +62,7 @@ class Article {
 	async getAllArticle (ctx, next) {
 		let title = ctx.request.query.title
 		console.log(title)
-		const data = await frontArticle.find({title: title})
+		const data = await frontArticle.find({title: title}).where('status').gte(1)
 		ctx.body = {
 			data
 		}
@@ -74,7 +74,7 @@ class Article {
 		console.log(ctx.request.query.page)
 		let page = parseInt(ctx.request.query.page)
 		try {
-			const data = await frontArticle.find({},{title:1}).limit(page).sort({createdAt:1})
+			const data = await frontArticle.find({status: 1}).limit(page).sort({createdAt:1})
 			ctx.body = {
 				data
 			}

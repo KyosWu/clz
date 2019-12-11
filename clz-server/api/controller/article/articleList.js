@@ -13,7 +13,7 @@ class ArticleList {
             let { parseInt } = Number;
             let page = parseInt((req.page-1) * req.pagesize);
             let pagesize = parseInt(req.pagesize);
-            let front = await frontArticle.find({},{__v:0,content:0,original:0}).skip(page).limit(pagesize).sort({'_id':-1});
+            let front = await frontArticle.find({status:1},{__v:0,content:0,original:0}).skip(page).limit(pagesize).sort({'_id':-1});
             let frontCount = await frontArticle.count({});
             ctx.body = {
                 error: 0,
@@ -32,7 +32,7 @@ class ArticleList {
             let { parseInt } = Number;
             let page = parseInt((req.page-1) * req.pagesize);
             let pagesize = parseInt(req.pagesize);
-            let back = await backArticle.find({},{__v:0,content:0,original:0}).skip(page).limit(pagesize).sort({'_id':-1});
+            let back = await backArticle.find({status:1},{__v:0,content:0,original:0}).skip(page).limit(pagesize).sort({'_id':-1});
             let backCount = await backArticle.count({});
             ctx.body = {
                 error: 0,

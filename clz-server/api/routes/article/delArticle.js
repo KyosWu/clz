@@ -9,7 +9,7 @@ const {
 } = require('../../controller/article/delete')
 
 /*删除文章接口*/
-router.post('/article/delArticle',delArticle);
+router.post('/delArticle',delArticle);
 
 module.exports = router;
 

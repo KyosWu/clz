@@ -13,12 +13,12 @@ class delArticle {
 		try{
 			let req = ctx.request.body;
 			let {id,list} = req;
-			let db = list == 'Front' ? frontArticle : backArticle;
-			let res = await db.remove({_id:id});
+			let db = list === 'Front' ? frontArticle : backArticle;
+			let res = await db.findByIdAndUpdate({_id:id},{status: -1});
 			let {n,ok} = res;
 			ctx.body = {
 				del:n,
-				ok
+				ok: 1
 			}
 		}catch(e){
 			ctx.body = {

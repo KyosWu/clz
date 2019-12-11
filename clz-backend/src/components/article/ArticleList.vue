@@ -158,7 +158,7 @@ export default {
     },
     delete (id, list) {
       let json = {id, list}
-      this.$axios.post('/articleList/delArticle', json).then(res => {
+      this.$axios.post('/delArticle/delArticle', json).then(res => {
         let {del, ok} = res.data
         this.del = del
         this.ok = ok

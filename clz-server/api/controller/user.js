@@ -14,10 +14,10 @@ class User {
     // 用户登录
     async login (ctx,next) {
         try{
-            let req = ctx.request.body;
-            let {username,password} = req;
-            let pwd = md5(md5(password).substr(3,8)+md5(password));
-            let result = await userModel.find({username});
+            let req = ctx.request.body
+            let {username,password} = req
+            let pwd = md5(md5(password).substr(3,8)+md5(password))
+            let result = await userModel.find({username}).where('status').gte(1)
             if (result.length === 0) {
                 ctx.body = {
                     error:1,
@@ -87,7 +87,7 @@ class User {
                     {username: { $regex: reg}},
                     {roles: { $regex: reg}}
                 ]
-            }).skip(skip).limit(limit)
+            }).skip(skip).limit(limit).where('status').gte(1)
             // 统计条数
             let total = await userModel.countDocuments({})
             ctx.body = {
@@ -149,7 +149,7 @@ class User {
         let id = ctx.request.body.params.id
         try {
             // userModel.find({_id: id}).update({status: 0})
-            await userModel.findByIdAndRemove({_id: id}).then(()=>{
+            await userModel.findByIdAndUpdate({_id: id},{status: -1}).then(()=>{
                 ctx.body = {
                     code: '615'
                 }

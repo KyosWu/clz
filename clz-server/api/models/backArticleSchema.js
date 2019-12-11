@@ -10,8 +10,12 @@ const articleSchema = new Schema({
 	des:String,
 	list:String,
     banner: String,
-    imgFileName: String
-});
+    imgFileName: String,
+	status: {
+		type: Number,
+		default: 1
+	}
+},{timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
 module.exports = model('backArticle',articleSchema);

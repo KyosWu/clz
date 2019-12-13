@@ -11,7 +11,14 @@ const articleSchema = new Schema({
 	list:String,
     banner: String,
     imgFileName: String,
-    comment: [],
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: "user"
+	},
+	comments: {
+		type: Schema.Types.ObjectId,
+		ref: "comment"
+	},
 	status: {
 		type: Number,
 		default: 1

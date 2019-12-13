@@ -90,11 +90,13 @@ class Article {
 	 *@return {object|null} return Article Detail
 	 */
 
+	// 根据对应的文章id 返回匹配的文章内容
 	async articleInfo (ctx, next) {
 		try{
 			let req = ctx.request.query;
 			let {id} = req;
 			let result = await frontArticle.findOne({_id:id});
+			// let result = await frontArticle.findOne({_id:id}).populate('comments').populate({path:'user',select: 'avatar name'});
 			ctx.body = {
 				error:0,
 				info:result

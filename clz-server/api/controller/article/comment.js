@@ -118,7 +118,7 @@ class Comment {
      * @return {object|null}  comments Lists
      */
 
-    // 文章评论列表
+    // 中台-文章评论列表
     async commentsList (ctx) {
         try {
             let req = ctx.request.body;
@@ -134,6 +134,28 @@ class Comment {
             }
         } catch (error) {
             ctx.body = error
+        }
+    }
+
+    // 前端网页-文章评论列表
+    async articleCommentsList (ctx) {
+        let id  = ctx.request.query.id
+        let data = await db.find({article:id}).populate({path: 'user', select: 'avatar name'})
+        let contentTotal = await db.where('content').countDocuments()
+        ctx.body = {
+            data,
+            contentTotal
+        }
+    }
+
+    // 前端网页-文章评论新增
+    async articleCommentsInsert (ctx) {
+        console.log(ctx.request.body.params)
+        // 文章id
+        let articleId = ctx.request.body.params.articleId
+        let data = await db.findById({article: articleId})
+        ctx.body = {
+            k : 'aa'
         }
     }
 

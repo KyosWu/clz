@@ -153,7 +153,7 @@ class Comment {
         console.log(ctx.request.body.params)
         // 文章id
         let articleId = ctx.request.body.params.articleId
-        let data = await db.findById({article: articleId})
+        let data = await db.findById({article: articleId}).insert(ctx.request.body.params)
         ctx.body = {
             k : 'aa'
         }

@@ -97,9 +97,13 @@ class Article {
 			let {id} = req;
 			let result = await frontArticle.findOne({_id:id});
 			// let result = await frontArticle.findOne({_id:id}).populate('comments').populate({path:'user',select: 'avatar name'});
+			let pre = await frontArticle.find({'_id':{'$lt':id}}).sort({_id: -1}).limit(1).select('_id title')
+			let next = await frontArticle.find({'_id':{'$gt':id}}).sort({_id: 1}).limit(1).select('_id title')
 			ctx.body = {
 				error:0,
-				info:result
+				info:result,
+				pre: pre,
+				next: next
 			}
 		}catch(e){
 			ctx.body = {

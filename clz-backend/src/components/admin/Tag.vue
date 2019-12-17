@@ -1,90 +1,87 @@
 <template>
-<div>
-  <div style="margin-top: 20px">
-    <el-button @click="toggleSelection(tableData)">全选</el-button>
-    <el-button @click="toggleSelection()">取消选择</el-button>
-    <el-button type="danger" plain @click="deleteTableData" size="small " icon="el-icon-delete">删除</el-button>
-    <el-button type="primary" plain @click="addow" size="small " icon="el-icon-circle-plus-outline"
-               style="margin: 10px 0 10px;">添加一行
-    </el-button>
-    <el-button type="success" plain @click="saveData(tableData)" size="small " icon="el-icon-document-checked">保存
-    </el-button>
+  <div>
+    <div style="margin-top: 20px;margin-bottom: 20px">
+      <el-button type="primary" size="small" icon="el-icon-circle-check" @click="toggleSelection(tableData)">全选</el-button>
+      <el-button type="danger" size="small" icon="el-icon-circle-close" @click="toggleSelection()">取消选择</el-button>
+      <el-button type="primary" plain size="small" icon="el-icon-circle-plus-outline" @click="addow">添加一行</el-button>
+      <el-button type="success" plain size="small" icon="el-icon-document-checked" @click="saveData(tableData)">保存</el-button>
+      <el-button type="danger" plain size="small" icon="el-icon-delete" @click="deleteTableData">删除</el-button>
+    </div>
+    <el-table
+      ref="multipleTable"
+      :data="tableData"
+      tooltip-effect="dark"
+      style="width: 100%"
+      stripe
+      fit
+      highlight-current-row
+      :indent="2"
+      :lazy="true"
+      :default-sort="{prop:'total',order:'descending'}"
+      @selection-change="handleSelectionChange">
+
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
+
+      <el-table-column
+        prop="date"
+        sortable
+        align="left"
+        label="创建时间"
+        width="120">
+        <template slot-scope="scope">
+          {{scope.row.date}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="tag"
+        label="标签"
+        align="center"
+        width="150">
+        <template slot-scope="scope">
+          <el-input v-show="doubleclick=== scope.$index" v-model="scope.row.tag"
+                          align="center" type="text" size="mini" style="width: 60%;">
+          </el-input>
+          <span v-show="doubleclick !== scope.$index">{{ scope.row.tag }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        sortable
+        align="center"
+        prop="total"
+        label="关联文章总计"
+        width="150">
+        <!--<template slot-scope="scope">{{ scope.row.total }}</template>-->
+      </el-table-column>
+
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <!--保存-->
+          <el-button
+            v-show="doubleclick === scope.$index"
+            size="mini"
+            @click="editSave(scope.$index, scope.row)">保存</el-button>
+          <!--编辑-->
+          <el-button
+            v-show="doubleclick !== scope.$index"
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <!--取消-->
+          <el-button
+            v-show="doubleclick === scope.$index"
+            size="mini"
+            @click="editCancel(scope.$index, scope.row)">取消</el-button>
+          <!--删除-->
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
-  <el-table
-    ref="multipleTable"
-    :data="tableData"
-    tooltip-effect="dark"
-    style="width: 100%"
-    stripe
-    fit
-    highlight-current-row
-    :indent="2"
-    :lazy="true"
-    :default-sort="{prop:'total',order:'descending'}"
-    @selection-change="handleSelectionChange">
-
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
-
-    <el-table-column
-      prop="date"
-      sortable
-      align="left"
-      label="创建时间"
-      width="120">
-      <template slot-scope="scope">
-        {{scope.row.date}}
-      </template>
-    </el-table-column>
-    <el-table-column
-      prop="tag"
-      label="标签"
-      align="center"
-      width="150">
-      <template slot-scope="scope">
-        <el-input v-show="doubleclick=== scope.$index" v-model="scope.row.tag"
-                        align="center" type="text" size="mini" style="width: 60%;">
-        </el-input>
-        <span v-show="doubleclick !== scope.$index">{{ scope.row.tag }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      sortable
-      align="center"
-      prop="total"
-      label="关联文章总计"
-      width="150">
-      <!--<template slot-scope="scope">{{ scope.row.total }}</template>-->
-    </el-table-column>
-
-    <el-table-column label="操作" align="center">
-      <template slot-scope="scope">
-        <!--保存-->
-        <el-button
-          v-show="doubleclick === scope.$index"
-          size="mini"
-          @click="editSave(scope.$index, scope.row)">保存</el-button>
-        <!--编辑-->
-        <el-button
-          v-show="doubleclick !== scope.$index"
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-        <!--取消-->
-        <el-button
-          v-show="doubleclick === scope.$index"
-          size="mini"
-          @click="editCancel(scope.$index, scope.row)">取消</el-button>
-        <!--删除-->
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-</div>
 </template>
 
 <script>

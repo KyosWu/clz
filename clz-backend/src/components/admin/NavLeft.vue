@@ -37,6 +37,13 @@
         </template>
         <MenuItem name="comment"><Icon class="iconfont icon-pinglun"></Icon>评论列表</MenuItem>
     </Submenu>
+    <Submenu name="6">
+      <template slot="title">
+        <Icon class="iconfont icon-pinglun1"></Icon>
+        标签管理
+      </template>
+      <MenuItem name="tag"><Icon class="iconfont icon-pinglun"></Icon>标签管理</MenuItem>
+    </Submenu>
   </Menu>
 </template>
 <script>

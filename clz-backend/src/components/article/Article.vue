@@ -8,6 +8,9 @@
     <label for="title" class="article">文章简介</label>
     <Input v-model="des" size="large" placeholder="在此输入文章标题" name="title" class="article_title"></Input>
 
+    <!--tags标签-->
+    <label for="title" class="article">添加标签</label>
+    <tags></tags>
     <!--mavon 编辑器-->
     <label for="title" class="article">文章内容</label>
 
@@ -59,6 +62,7 @@
 </template>
 
 <script>
+import tags from '../../components/article/tags';
 export default {
   data () {
     return {
@@ -71,6 +75,9 @@ export default {
       originalContent: '',
       uploadToken: ''
     }
+  },
+  components: {
+    tags
   },
   created () {
     this.getUploadToken()

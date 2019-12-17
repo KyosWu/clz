@@ -6,6 +6,7 @@
           <nav-left class="navleft"></nav-left>
         </el-col>
         <el-col :span="21" class="routerView">
+          <!--路由动态标签-->
           <tags-View></tags-View>
           <router-view></router-view>
         </el-col>

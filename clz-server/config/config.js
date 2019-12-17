@@ -23,6 +23,10 @@ module.exports =  {
         address: 'localhost:27017',
         db: 'blog',
         port: 27017
+    },
+    weibo: {
+        address: 'localhost:27017',
+        db: 'weibo',
+        port: 27017
     }
 }
-;

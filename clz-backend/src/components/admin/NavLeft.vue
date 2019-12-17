@@ -1,49 +1,108 @@
 <template>
-  <Menu active-name="admin" :open-names="['1','2','3']" class="menu-left" @on-select="getIndex" style="width:100%;min-height:100vh;">
+  <Menu active-name="admin" :open-names="['1','4']" @on-select="getIndex" style="width:100%;min-height:100vh;">
     <Submenu name="1">
         <template slot="title">
-            <Icon class="iconfont icon-xitong"></Icon>
-            控制面板
+          <div class="row">
+            <div class="svg xt"></div>
+            <div>系统概览</div>
+          </div>
         </template>
-        <MenuItem name="system"><Icon class="iconfont icon-zichangailan"></Icon>系统概览</MenuItem>
+        <MenuItem name="system">
+          <div class="row">
+            <div class="svg kzmb"></div>
+            <div>控制面板</div>
+          </div>
+        </MenuItem>
     </Submenu>
+
     <Submenu name="2">
         <template slot="title">
-            <Icon class="iconfont icon-banbengengxin1"></Icon>
-            版本控制
+          <div class="row">
+            <div class="svg bbkz"></div>
+            <div>版本控制</div>
+          </div>
         </template>
-        <MenuItem name="version"><Icon class="iconfont icon-fabu"></Icon>发布版本</MenuItem>
+        <MenuItem name="version">
+          <div class="row">
+            <div class="svg fbbb"></div>
+            <div>发布版本</div>
+          </div>
+        </MenuItem>
     </Submenu>
+
     <Submenu name="3">
         <template slot="title">
-          <Icon class="iconfont icon-pinglun1"></Icon>
-          权限管理
+          <div class="row">
+            <div class="svg qxgl"></div>
+            <div>权限管理</div>
+          </div>
         </template>
-        <MenuItem name="adminList"><Icon class="iconfont icon-pinglun"></Icon>管理员列表</MenuItem>
-        <MenuItem name="adminAdd"><Icon class="iconfont icon-pinglun"></Icon>添加管理员</MenuItem>
+        <MenuItem name="adminList">
+          <div class="row">
+            <div class="svg glylb"></div>
+            <div>管理员列表</div>
+          </div>
+        </MenuItem>
+        <MenuItem name="adminAdd">
+          <div class="row">
+            <div class="svg tjgly"></div>
+            <div>添加管理员</div>
+          </div>
+        </MenuItem>
     </Submenu>
+
     <Submenu name="4">
         <template slot="title">
-          <Icon class="iconfont icon-pinglun1"></Icon>
-          文章管理
+          <div class="row">
+            <div class="svg wzgl"></div>
+            <div>文章管理</div>
+          </div>
         </template>
-        <MenuItem name="article"><Icon class="iconfont icon-navicon-wzgl"></Icon>发布文章</MenuItem>
-        <MenuItem name="articleList"><Icon class="iconfont icon-wenzhangliebiaoxiangqing"></Icon>文章列表</MenuItem>
+        <MenuItem name="article">
+          <div class="row">
+            <div class="svg fbwz"></div>
+            <div>发布文章</div>
+          </div>
+        </MenuItem>
+        <MenuItem name="articleList">
+          <div class="row">
+            <div class="svg wzlb"></div>
+            <div>文章列表</div>
+          </div>
+        </MenuItem>
     </Submenu>
+
     <Submenu name="5">
         <template slot="title">
-          <Icon class="iconfont icon-pinglun1"></Icon>
-          评论管理
+          <div class="row">
+            <div class="svg plgl"></div>
+            <div>评论管理</div>
+          </div>
         </template>
-        <MenuItem name="comment"><Icon class="iconfont icon-pinglun"></Icon>评论列表</MenuItem>
+        <MenuItem name="comment">
+          <div class="row">
+            <div class="svg pllb"></div>
+            <div>评论列表</div>
+          </div>
+        </MenuItem>
     </Submenu>
+
     <Submenu name="6">
       <template slot="title">
-        <Icon class="iconfont icon-pinglun1"></Icon>
-        标签管理
+        <div class="row">
+          <div class="svg bqgl"></div>
+          <div>标签管理</div>
+        </div>
+
       </template>
-      <MenuItem name="tag"><Icon class="iconfont icon-pinglun"></Icon>标签管理</MenuItem>
+      <MenuItem name="tag">
+        <div class="row">
+          <div class="svg bqlb"></div>
+          <div>标签列表</div>
+        </div>
+      </MenuItem>
     </Submenu>
+
   </Menu>
 </template>
 <script>
@@ -65,4 +124,67 @@ export default {
 .iconfont {
   font-weight: bold;
 }
+</style>
+
+<style scoped>
+  .row {
+    display: flex;
+    align-items: center;
+  }
+  .svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  //系统
+  .xt {
+    background-image: url("../../assets/images/svg/navLeft/系统.svg");
+  }
+  .kzmb {
+    background-image: url("../../assets/images/svg/navLeft/控制面板-01.svg");
+  }
+  // 版本发布
+  .bbkz {
+    background-image: url("../../assets/images/svg/navLeft/版本管理设置_操作_jurassic.svg");
+  }
+  .fbbb {
+    background-image: url("../../assets/images/svg/navLeft/版本发布.svg");
+  }
+  // 管理员
+  .qxgl {
+    background-image: url("../../assets/images/svg/navLeft/权限控制.svg");
+  }
+  .glylb {
+    background-image: url("../../assets/images/svg/navLeft/管理员.svg");
+  }
+  .tjgly {
+    background-image: url("../../assets/images/svg/navLeft/添加管理员.svg");
+  }
+  // 文章
+  .wzgl {
+    background-image: url("../../assets/images/svg/navLeft/文章.svg");
+  }
+  .fbwz {
+    background-image: url("../../assets/images/svg/navLeft/发布文章.svg");
+  }
+  .wzlb {
+    background-image: url("../../assets/images/svg/navLeft/文章管理.svg");
+  }
+  // 评论管理
+  .plgl {
+    background-image: url("../../assets/images/svg/navLeft/评论管理.svg");
+  }
+  .pllb {
+    background-image: url("../../assets/images/svg/navLeft/评论列表.svg");
+  }
+  // 标签管理
+  .bqgl {
+    background-image: url("../../assets/images/svg/navLeft/标签管理.svg");
+  }
+  .bqlb {
+    background-image: url("../../assets/images/svg/navLeft/标签列表.svg");
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="tag">
     <div style="margin-top: 20px;margin-bottom: 20px">
       <el-button type="primary" size="small" icon="el-icon-circle-check" @click="toggleSelection(tableData)">全选</el-button>
       <el-button type="danger" size="small" icon="el-icon-circle-close" @click="toggleSelection()">取消选择</el-button>
@@ -223,3 +223,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  #tag {
+    padding: 5px;
+    margin: 5px;
+  }
+</style>

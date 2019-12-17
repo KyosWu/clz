@@ -1,33 +1,33 @@
 <template>
-<article>
-    <h2>添加管理员</h2>
-    <div class="box">
-        <el-form :model="info" :rules="rules" ref="form" label-width="100px" class="form">
-            <el-form-item label="名字" prop="name">
-                <el-input type="text" v-model="info.name"></el-input>
-            </el-form-item>
-            <el-form-item label="用户名" prop="username">
-                <el-input type="text" v-model="info.username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="info.password"></el-input>
-            </el-form-item>
-            <el-form-item label="权限" prop="roles">
-                <!-- <el-input type="textarea" v-model="info.roles"></el-input> -->
-                <el-select v-model="info.roles" multiple placeholder="请选择" class="block">
-                    <el-option v-for="item in roles"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')" :loading="loading">立即创建</el-button>
-            </el-form-item>
-        </el-form>
-    </div>
-</article>
+  <article>
+      <h2>添加管理员</h2>
+      <div class="box">
+          <el-form :model="info" :rules="rules" ref="form" label-width="100px" class="form">
+              <el-form-item label="名字" prop="name">
+                  <el-input type="text" v-model="info.name"></el-input>
+              </el-form-item>
+              <el-form-item label="用户名" prop="username">
+                  <el-input type="text" v-model="info.username"></el-input>
+              </el-form-item>
+              <el-form-item label="密码" prop="password">
+                  <el-input type="password" v-model="info.password"></el-input>
+              </el-form-item>
+              <el-form-item label="权限" prop="roles">
+                  <!-- <el-input type="textarea" v-model="info.roles"></el-input> -->
+                  <el-select v-model="info.roles" multiple placeholder="请选择" class="block">
+                      <el-option v-for="item in roles"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                  </el-select>
+              </el-form-item>
+              <el-form-item>
+                  <el-button type="primary" @click="submitForm('form')" :loading="loading">立即创建</el-button>
+              </el-form-item>
+          </el-form>
+      </div>
+  </article>
 </template>
 
 <script>
@@ -102,9 +102,13 @@ export default {
             // margin-left: 100px;
         }
         .box {
-            // margin-left: 100px;
-            width: 500px;
-            text-align: left;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: left;
+          .el-form{
+            width: 543px
+          }
         }
         .block {
             width: 100%;

@@ -1,0 +1,19 @@
+// 通用图片背景-图片
+@mixin bg-pic ($url) {
+  background-image: url($url);
+}
+// 通用图片背景-样式
+@mixin bg-common {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+// 通用图片背景-居中
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 文章菜单栏200px
+$articleMenu: 200px;

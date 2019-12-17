@@ -10,7 +10,7 @@
 
     <!--tags标签-->
     <label for="title" class="article">添加标签</label>
-    <tags></tags>
+    <Tags @tagArray="getTags"></Tags>
     <!--mavon 编辑器-->
     <label for="title" class="article">文章内容</label>
 
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import tags from '../../components/article/tags';
+import Tags from './Tags'
 export default {
   data () {
     return {
@@ -71,13 +71,15 @@ export default {
       htmlContent: '',
       date: FormatDate(new Date()),
       radio: 'Front',
+      tag: '',
       des: '',
       originalContent: '',
-      uploadToken: ''
+      uploadToken: '',
+      source: ''
     }
   },
   components: {
-    tags
+    Tags
   },
   created () {
     this.getUploadToken()
@@ -98,6 +100,7 @@ export default {
         title: this.title,
         htmlContent: this.htmlContent,
         date: this.date,
+        tag: this.tag,
         des: this.des,
         original: this.originalContent,
         radio: this.radio
@@ -144,6 +147,11 @@ export default {
       } catch (error) {
         this.error(error, error, false)
       }
+    },
+    // 接收子组件 传过来的tag标签
+    getTags (payload) {
+      this.tag = payload
+      console.log(this.tag)
     }
   }
 }

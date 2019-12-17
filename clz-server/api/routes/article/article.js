@@ -28,7 +28,8 @@ const {
     articleInfo,
     uploadFile,
     deleteFile,
-    findOneArticle
+    findOneArticle,
+    getAllTags
 } = require('../../controller/article/article')
 
 // 文章
@@ -48,6 +49,8 @@ router.post('/upload',upload.single('file'), uploadFile);
 router.post('/deleteFile', deleteFile)
 /*查询单文章*/
 router.post('/findOneArticle', findOneArticle)
+/*获取tag标签*/
+router.get('/getAllTags', getAllTags)
 
 
 

@@ -9,7 +9,7 @@
       </template>
       <MenuItem name="system">
         <div class="row">
-          <div class="svg kzmb"></div>
+          <img class="svg" src="../../assets/images/svg/navLeft/控制面板-01.svg" alt="">
           <div>控制面板</div>
         </div>
       </MenuItem>
@@ -24,7 +24,7 @@
     </template>
     <MenuItem name="version">
       <div class="row">
-        <div class="svg fbbb"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/版本发布.svg" alt="">
         <div>发布版本</div>
       </div>
     </MenuItem>
@@ -39,13 +39,13 @@
     </template>
     <MenuItem name="adminList">
       <div class="row">
-        <div class="svg glylb"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/管理员.svg" alt="">
         <div>管理员列表</div>
       </div>
     </MenuItem>
     <MenuItem name="adminAdd">
       <div class="row">
-        <div class="svg tjgly"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/添加管理员.svg" alt="">
         <div>添加管理员</div>
       </div>
     </MenuItem>
@@ -60,13 +60,13 @@
     </template>
     <MenuItem name="article">
       <div class="row">
-        <div class="svg fbwz"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/发布文章.svg" alt="">
         <div>发布文章</div>
       </div>
     </MenuItem>
     <MenuItem name="articleList">
       <div class="row">
-        <div class="svg wzlb"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/文章.svg" alt="">
         <div>文章列表</div>
       </div>
     </MenuItem>
@@ -81,7 +81,7 @@
     </template>
     <MenuItem name="comment">
       <div class="row">
-        <div class="svg pllb"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/评论列表.svg" alt="">
         <div>评论列表</div>
       </div>
     </MenuItem>
@@ -96,7 +96,7 @@
     </template>
     <MenuItem name="tag">
       <div class="row">
-        <div class="svg bqlb"></div>
+        <img class="svg" src="../../assets/images/svg/navLeft/标签列表.svg" alt="">
         <div>标签列表</div>
       </div>
     </MenuItem>

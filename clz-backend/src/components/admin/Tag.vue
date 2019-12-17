@@ -36,7 +36,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="tag"
+        prop="tagArticle"
         label="标签"
         align="center"
         width="150">
@@ -44,7 +44,7 @@
           <el-input v-show="doubleclick=== scope.$index" v-model="scope.row.tag"
                           align="center" type="text" size="mini" style="width: 60%;">
           </el-input>
-          <span v-show="doubleclick !== scope.$index">{{ scope.row.tag }}</span>
+          <span v-show="doubleclick !== scope.$index">{{ scope.row.tagArticle }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -104,7 +104,15 @@ export default {
       multipleSelection: []
     }
   },
+  created () {
+    this.getData()
+  },
   methods: {
+    getData () {
+      this.$axios.get('/article/getAllTags').then((res) => {
+        console.log(res.data)
+      })
+    },
     // 选中table行的数据,触发赋值
     handleSelectionChange (val) {
       this.multipleSelection = val

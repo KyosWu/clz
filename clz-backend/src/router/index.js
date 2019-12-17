@@ -55,7 +55,7 @@ const router = new Router({
           meta: {requireAuth: true, title: '评论管理'}
         },
         // 标签管理
-        { path: '/tag',
+        { path: '/tagArticle.js',
           name: 'tag',
           component: () => import('@/components/admin/Tag.vue'),
           meta: {keepAlive: true, requireAuth: true, title: '标签管理'} }

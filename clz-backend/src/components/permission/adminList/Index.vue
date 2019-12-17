@@ -35,8 +35,8 @@
                           class="tag"
                           type="primary"
                           close-transition
-                          v-for="(tag, index) in scope.row.roles"
-                          :key="index">{{tag}}
+                          v-for="(tagArticle, index) in scope.row.roles"
+                          :key="index">{{tagArticle}}
                     </el-tag>
                 </div>
                 <div v-else-if="scope.column.property === 'avatar'">

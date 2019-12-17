@@ -13,9 +13,9 @@ class Article {
 	async insertArticle (ctx){
 		try{
 			let req = ctx.request.body;
-			let {title,htmlContent,date,des,original,radio} = req;
+			let {title,htmlContent,tag,date,des,original,radio} = req;
 			// radios 等于后台字段list
-			const front = await frontArticle.update({title},{$set:{title,content:htmlContent,time:date,des,original,list:radio,status: 1}},{upsert:true});
+			const front = await frontArticle.update({title},{$set:{title,content:htmlContent,tag:tag ,time:date,des,original,list:radio,status: 1}},{upsert:true});
 			let {ok} = front;
 			ctx.body = {
 				error:0,
@@ -181,6 +181,15 @@ class Article {
 		}
 	}
 
+	// 获取所有tag标签
+	async getAllTags (ctx) {
+		console.log(ctx.request.query)
+		// let id = ctx.request.query.id
+		let data = await frontArticle.find({}).select('tag')
+		ctx.body = {
+			data
+		}
+	}
 }
 
 

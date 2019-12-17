@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-tag
-      :key="tag"
-      v-for="tag in dynamicTags"
+      v-for="(tagArticle, index) in dynamicTags"
+      :key="index"
       closable
       :disable-transitions="false"
       @close="handleClose(tag)">
-      {{tag}}
+      {{tagArticle}}
     </el-tag>
     <el-input
       class="input-new-tag"
@@ -50,8 +50,8 @@ export default {
     }
   },
   methods: {
-    handleClose (tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
+    handleClose (tagArticle) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(), 1)
     },
 
     showInput () {
@@ -65,6 +65,7 @@ export default {
       let inputValue = this.inputValue
       if (inputValue) {
         this.dynamicTags.push(inputValue)
+        this.$emit('tagArray', this.dynamicTags)
       }
       this.inputVisible = false
       this.inputValue = ''

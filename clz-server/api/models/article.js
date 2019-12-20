@@ -26,4 +26,4 @@ const articleSchema = new Schema({
 },{timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
-module.exports = model('frontArticle',articleSchema);
+module.exports = model('article',articleSchema);

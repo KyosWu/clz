@@ -69,7 +69,7 @@
               <div class="cpu_status">
                   <span>逻辑CPU内核信息：</span>
               </div>
-              <Table border :columns="columns" stripe :data="cpu"></Table>
+              <Table border :columns="cpuInfoType" stripe :data="cpu"></Table>
             </Card>
           </Col>
       </Row>
@@ -77,44 +77,36 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      constants: null,
-      release: null,
-      platform: null,
-      hostname: null,
-      type: null,
-      freemem: null,
-      totalmem: null,
-      percentage: null,
-      cpu: [],
-      columns: [
-        {
-          title: 'CPU内核模型',
-          key: 'model'
-        },
-        {
-          title: 'CPU频率(GHz)',
-          key: 'speed'
-        },
-        {
-          title: 'CPU执行模式[毫秒]( user:用户 | nice:良好 | sys:系统 | idle:空闲 | irq:中断 )',
-          key: 'times'
-        }
-      ]
     }
+  },
+  computed: {
+    ...mapGetters([
+      // 获取cpu提示信息类型
+      'constants',
+      'release',
+      'platform',
+      'hostname',
+      'type',
+      'freemem',
+      'totalmem',
+      'percentage',
+      'cpu',
+      'cpuInfoType'
+    ])
   },
   created () {
     this.init()
-    console.log(process.env.NODE_ENV)
   },
   methods: {
+    ...mapActions([
+      'getSystemInfo'
+    ]),
     init () {
-      this.$axios.post('/system/system').then(res => {
-        let { constants, release, platform, hostname, type, freemem, totalmem, percentage, cpu } = res.data;
-        [this.constants, this.release, this.platform, this.hostname, this.type, this.freemem, this.totalmem, this.percentage, this.cpu] = [constants, release, platform, hostname, type, freemem, totalmem, percentage, cpu]
-      })
+      this.getSystemInfo()
     },
     changeInit () {
       this.init()
@@ -124,5 +116,5 @@ export default {
 </script>
 
 <style lang="less">
- @import './../../assets/css/admin/index.less';
+ @import '../../assets/css/admin/systemInfo.less';
 </style>

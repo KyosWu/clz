@@ -1,14 +1,8 @@
-const frontArticle = require('../../models/frontArticleSchema');
-const backArticle = require('../../models/backArticleSchema');
+const article = require('../../models/article');
 const fs = require('fs');
-/**
- * private API
- * @method insert
- * @param {object} 接收发布文章接口传递对象值
- * @return {object|null}  insert Front article
-*/
 
 class Article {
+
 	// 添加新文章
 	async insertArticle (ctx){
 		try{
@@ -28,13 +22,6 @@ class Article {
 			}
 		}
 	}
-
-	/**
-	 *public API
-	 *@param {number|null} page
-	 *@param {number|null} pagesize
-	 *@return {object} return article list 按时间排序
-	 */
 
 	// 分页获取文章
 	async getArticle (ctx, next) {
@@ -84,12 +71,6 @@ class Article {
 		}
 	}
 
-	/**
-	 *public API
-	 *@param {String} id find Article Detail
-	 *@return {object|null} return Article Detail
-	 */
-
 	// 根据对应的文章id 返回匹配的文章内容
 	async articleInfo (ctx, next) {
 		try{
@@ -113,21 +94,13 @@ class Article {
 		}
 	}
 
-	/**
-	 *private API
-	 *@param {string|null} id
-	 *@param {string|null} radio
-	 *@return {object} return upload list
-	 */
-
 	// 上传文件功能
 	async uploadFile (ctx) {
 		try {
 			let req = ctx.req.body;
 			let file = ctx.req.file;
-			let db = await Object.is(req.radio, 'Front') ? frontArticle : backArticle
 			let path = `http://${ctx.headers.host}/uploads/${file.filename}`
-			let result = await db.update({_id: req.id }, {$set: {banner: path, imgFileName:file.filename}},{upsert:true})
+			let result = await article.update({_id: req.id }, {$set: {banner: path, imgFileName:file.filename}},{upsert:true})
 			ctx.status = 200
 			ctx.body = {
 				status: ctx.status,
@@ -143,34 +116,23 @@ class Article {
 	async findOneArticle (ctx) {
 		try {
 			let req = ctx.request.body;
-			let db = await Object.is(req.radio, 'Front') ? frontArticle : backArticle
-			let result = await db.findOne({_id:req.id})
+			let result = await article.findOne({_id:req.id})
 			ctx.body = {
-				error:0,
 				result
 			}
 		} catch (error) {
-			ctx.body = {
-				error: 1,
-				error: e
-			}
+			ctx.body = error
 		}
 	}
-	/**
-	 *private API
-	 *@param {string|null} id
-	 *@param {string|null} radio
-	 *@return {object} return deleteFile
-	 */
+
 	// 删除文章
 	async deleteFile (ctx) {
 		try {
 			let request = ctx.request.body
-			let db = await Object.is(request.radio, 'Front') ? frontArticle : backArticle
-			let { imgFileName } = await db.findById({_id: request.id});
+			let { imgFileName } = await article.findById({_id: request.id});
 			let path = `${process.cwd()}/public/uploads/${imgFileName}`;
 			await fs.unlinkSync(path)
-			let result = await db.update({_id: request.id }, {$unset: {banner: -1, imgFileName:-1}})
+			let result = await article.update({_id: request.id }, {$unset: {banner: -1, imgFileName:-1}})
 			ctx.status = 200
 			ctx.body = {
 				status: ctx.status,

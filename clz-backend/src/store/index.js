@@ -12,6 +12,7 @@ import user from './modules/user'
 // import blog from './modules/blog'
 // import markdown from './modules/markdown'
 import socket from './modules/socket'
+import systemInfo from './modules/systemInfo'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ const store = new Vuex.Store({
   actions,
   modules: {
     user,
-    socket
+    socket,
+    systemInfo
   }
 })
 

@@ -24,7 +24,7 @@ const router = new Router({
         {
           path: '/system',
           name: 'system',
-          component: () => import('@/components/admin/Admin-index.vue'),
+          component: () => import('@/components/admin/SystemInfo.vue'),
           meta: {requireAuth: true, title: '系统概览'}
         },
         // 版本控制

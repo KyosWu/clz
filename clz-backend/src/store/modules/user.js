@@ -38,20 +38,7 @@ const user = {
     clearInfo ({commit}) {
       commit('CLEARINFO')
     },
-    userLogin ({state, commit}, info) {
-      let {username, pwd} = info
-      return new Promise((resolve, reject) => {
-        this.$axios.post('/user/login', {
-          username: username,
-          pwd: md5(pwd)
-        }).then(res => {
-          state.token = token
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
+
     getUserInfo ({state, commit}) {
       return new Promise((resolve, reject) => {
         this.$axios.get('/user/info', {

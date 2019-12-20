@@ -6,8 +6,8 @@ import 'iview/dist/styles/iview.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import axios from './utils/http'
-import store from '@/store/index'
-import commonPlugin from '@/plugins'
+import store from './store/index'
+import commonPlugin from './plugins'
 
 // 引入element-ui
 import Element from 'element-ui'
@@ -19,6 +19,7 @@ import VueSocketIO from 'vue-socket.io'
 // 必须原型链上添加
 Vue.prototype.$echarts = echarts
 
+// VueSocketIo api定义
 Vue.use(new VueSocketIO({
   debug: true,
   // connection: 'http://localhost:4444/',

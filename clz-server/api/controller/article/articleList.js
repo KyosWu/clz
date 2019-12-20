@@ -1,4 +1,4 @@
-const frontArticle = require('../../models/frontArticleSchema');
+const frontArticle = require('../../models/article');
 const backArticle = require('../../models/backArticleSchema');
 
 /**

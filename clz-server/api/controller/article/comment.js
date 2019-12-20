@@ -1,4 +1,4 @@
-const article = require('../../models/frontArticleSchema');
+const article = require('../../models/article');
 const db = require('../../models/commentSchema');
 const config = require('../../models/commentConfigSchema');
 const md5 = require('../md5');

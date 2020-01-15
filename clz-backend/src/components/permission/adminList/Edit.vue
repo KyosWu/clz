@@ -1,5 +1,5 @@
 <template>
-<article>
+  <article>
     <el-dialog title="管理员编辑" :visible.sync="dialogTableVisible" class="edit-wrapper" @close="close" width="80%">
         <div class="box">
             <el-form :model="info" :rules="rules" ref="form" label-width="100px" class="form">
@@ -83,27 +83,6 @@ export default {
     }
   }
 }
-
-/*          try {
-            // delete this.info.createTime
-            // delete this.info.releaseTime
-            // await this.$store.dispatch('updateUser', this.info)
-            this.$axios.post('/user/update', {params: this.info}).then((res) => {
-              console.logs(res)
-            })
-            // this.loading = false
-            // this.$router.push('/permission/adminList')
-            this.close()
-          } catch (e) {
-            this.info.pwd = ''
-            this.info.old_pwd = ''
-            this.loading = false
-          }
-        } else {
-          console.logs('error submit!!')
-          this.loading = false
-          return false
-        }*/
 </script>
 
 <style lang="less" scoped>

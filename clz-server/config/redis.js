@@ -5,7 +5,7 @@ const redis = {
     // prefix: 'blog:', //存储前缀
     db: 0,
     family: 4,
-    password: '123456'
+    // password: '123456'
 }
 
 module.exports = redis

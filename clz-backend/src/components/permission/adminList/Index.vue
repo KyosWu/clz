@@ -1,5 +1,5 @@
 <template>
-<article>
+  <article>
     <div class="search">
         <el-input placeholder="请输入内容"
                   prefix-icon="el-icon-search"
@@ -166,45 +166,11 @@ export default {
         // 用户数目统计
         this.userTotal = res.data.total
       })
-/*      try {
-        await this.$store.dispatch('getUserList', {
-          keyword: this.keyword,
-          pageindex: this.pageindex,
-          pagesize: this.pagesize
-        })
-        this.loading = false
-      } catch (e) {
-        this.loading = false
-      }*/
     },
     del (scope, index, id) {
       this.$axios.post('/user/del', {params: {id: id}}).then((res) => {
         this.userList.splice(index, 1)
       })
-/*      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        center: true
-      }).then(async (scope, index, id) => {
-        // 如何获取mongoose的ID值
-        try {
-          this.$axios.delete('/user/del', id).then((res) => {
-            console.log(res)
-            this.userList.splice(index, 1)
-          })
-          // await this.$store.dispatch('delUser', scope.row._id)
-        } catch (e) {}
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })*/
     },
     edit (scope) {
       this.editShow = true
@@ -214,13 +180,7 @@ export default {
     filterTag (value, row) {
       return row.type.some(v => v === value)
     }
-  },
-/*  computed: {
-    ...mapGetters([
-      'userList',
-      'userTotal'
-    ])
-  }*/
+  }
 }
 </script>
 

@@ -8,6 +8,7 @@ const {
     insertComment,
     articleComments,
     commentsList,
+    newCommentsList,
     commentConfig,
     configList,
     delComment,
@@ -20,6 +21,8 @@ const {
 router.post('/comment', insertComment)
 /*评论列表接口*/
 router.post('/articleComments', articleComments)
+
+router.get('/newCommentsList', newCommentsList)
 
 /*中台-评论列表管理*/
 router.post('/commentsList', commentsList)

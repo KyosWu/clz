@@ -1,4 +1,4 @@
-const frontArticle = require('../../models/article');
+const article = require('../../models/article');
 const backArticle = require('../../models/backArticleSchema');
 
 /**
@@ -13,8 +13,8 @@ class ArticleList {
             let { parseInt } = Number;
             let page = parseInt((req.page-1) * req.pagesize);
             let pagesize = parseInt(req.pagesize);
-            let front = await frontArticle.find({status:1},{__v:0,content:0,original:0}).skip(page).limit(pagesize).sort({'_id':-1});
-            let frontCount = await frontArticle.count({});
+            let front = await article.find({status:1},{__v:0,content:0,original:0}).skip(page).limit(pagesize).sort({'_id':-1});
+            let frontCount = await article.count({});
             ctx.body = {
                 error: 0,
                 count:frontCount,

@@ -30,7 +30,10 @@ const logger = require('koa-logger')
 const mongoDB = require('./config/mongoDB')
 // 路由自动加载功能
 const InitManager = require('./core/init')
-
+// graphql
+const mount = require("koa-mount");
+const graphqlHTTP = require("koa-graphql");
+const schema = require("./graphql/schema");
 
 
 const app = new Koa()
@@ -57,7 +60,6 @@ if (ENV !== 'production') {
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
-
 
 app.use(json())
 app.use(logger())
@@ -86,6 +88,17 @@ const CONFIG = {
 }
 // session 配置
 app.use(session(CONFIG, app))
+
+// graphql 示例路由
+app.use(
+    mount(
+        "/graphql",
+        graphqlHTTP({
+            schema: schema,
+            graphiql: true
+        })
+    )
+);
 
 app.use(cors())
 InitManager.initCore(app)

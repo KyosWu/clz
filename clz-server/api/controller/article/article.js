@@ -9,7 +9,7 @@ class Article {
 			let req = ctx.request.body;
 			let {title,htmlContent,tag,date,des,original,radio} = req;
 			// radios 等于后台字段list
-			const front = await frontArticle.update({title},{$set:{title,content:htmlContent,tag:tag ,time:date,des,original,list:radio,status: 1}},{upsert:true});
+			const front = await article.update({title},{$set:{title,content:htmlContent,tag:tag ,time:date,des,original,list:radio,status: 1}},{upsert:true});
 			let {ok} = front;
 			ctx.body = {
 				error:0,
@@ -30,8 +30,8 @@ class Article {
 			let { parseInt } = Number;
 			let page = parseInt((req.page-1) * req.pagesize);
 			let pagesize = parseInt(req.pagesize);
-			let list = await frontArticle.find({status:1},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
-			let count = await frontArticle.count({});
+			let list = await article.find({status:1},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
+			let count = await article.count({});
 			ctx.body = {
 				error:0,
 				count,
@@ -49,7 +49,7 @@ class Article {
 	async getAllArticle (ctx, next) {
 		let title = ctx.request.query.title
 		console.log(title)
-		const data = await frontArticle.find({title: title}).where('status').gte(1)
+		const data = await article.find({title: title}).where('status').gte(1)
 		ctx.body = {
 			data
 		}
@@ -61,7 +61,7 @@ class Article {
 		console.log(ctx.request.query.page)
 		let page = parseInt(ctx.request.query.page)
 		try {
-			const data = await frontArticle.find({status: 1}).limit(page).sort({createdAt:1})
+			const data = await article.find({status: 1}).limit(page).sort({createdAt:1})
 			ctx.body = {
 				data
 			}
@@ -76,10 +76,10 @@ class Article {
 		try{
 			let req = ctx.request.query;
 			let {id} = req;
-			let result = await frontArticle.findOne({_id:id});
-			// let result = await frontArticle.findOne({_id:id}).populate('comments').populate({path:'user',select: 'avatar name'});
-			let pre = await frontArticle.find({'_id':{'$lt':id}}).sort({_id: -1}).limit(1).select('_id title')
-			let next = await frontArticle.find({'_id':{'$gt':id}}).sort({_id: 1}).limit(1).select('_id title')
+			let result = await article.findOne({_id:id});
+			// let result = await article.findOne({_id:id}).populate('comments').populate({path:'user',select: 'avatar name'});
+			let pre = await article.find({'_id':{'$lt':id}}).sort({_id: -1}).limit(1).select('_id title')
+			let next = await article.find({'_id':{'$gt':id}}).sort({_id: 1}).limit(1).select('_id title')
 			ctx.body = {
 				error:0,
 				info:result,
@@ -147,7 +147,7 @@ class Article {
 	async getAllTags (ctx) {
 		console.log(ctx.request.query)
 		// let id = ctx.request.query.id
-		let data = await frontArticle.find({}).select('tag')
+		let data = await article.find({}).select('tag')
 		ctx.body = {
 			data
 		}

@@ -7,7 +7,7 @@ push github公用仓库需要删除七牛云ak sk 目前未删除
 ```
 ├── bin/                             服务端启动文件
 ├── controller/                         控制器模型负责从视图读取数据，控制用户输入，并向模型发送数据。
-│   ├── article.js                      前端文章操作等
+│   ├── model-sequelize.js                      前端文章操作等
 │   ├── backArticle.js                  后端文章操作等
 │   ├── md5.js                          加密模块/改造加密算法
 │   ├── ...

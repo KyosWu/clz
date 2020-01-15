@@ -99,17 +99,32 @@ class Comment {
 
     // 获取文章评论
     async articleComments (ctx) {
-        try {
-            let request = ctx.request.body;
-            let [result] = await db.find({"id": request.id}, {__v: 0, _id: 0})
-            ctx.body = {
-                error: 0,
-                result,
-                count: result.comment.length
-            }
-        } catch (error) {
-            ctx.body = error
+        let id = ctx.request.body.id
+        let data = await db.findById({_id: id}).select('+questioner').populate('questioner')
+        ctx.body = {
+            data
         }
+    }
+
+    // 创建评论
+    async newCreateComments(ctx) {
+        ctx.verifyParams({
+            content: { type: 'string', required: true },
+            rootCommentId: { type: 'string', required: false },
+            replyTo: { type: 'string', required: false },
+        });
+        let commentator = ctx.request.body._id
+        let {questionId, answerId} = ctx.request.body
+        let comment = await new db({ ...ctx.request.body, commentator, questionId, answerId }).save()
+    }
+
+
+    // 获取评论内容
+    async newCommentsList(ctx){
+        const { questionId, answerId, rootCommentId } = ctx.request.query
+        // 问题id 回答者id 评论根id
+        const comments = await db.find({ questionId, answerId, rootCommentId }).populate('commentator replayTo')
+        ctx.body = comments
     }
 
     /**

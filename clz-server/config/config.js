@@ -24,9 +24,11 @@ module.exports =  {
         db: 'blog',
         port: 27017
     },
-    weibo: {
-        address: 'localhost:27017',
-        db: 'weibo',
-        port: 27017
+    mysql: {
+        dbName: 'blog',
+        host: 'localhost',
+        port: 3306,
+        user: 'blog123',
+        password: 'blog123'
     }
 }

@@ -24,7 +24,7 @@
 >admin-Version
 /version/insert
 
->article-Article
+>article-ModelSequelize
 /article/insert${this.radio}
 /articleimg/upload
 /articleimg/getToken

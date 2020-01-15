@@ -13,26 +13,21 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema({
     // user admin superAdmin
     roles: [
-        {user: 'user',type: String},
-        {admin: 'admin',type: String}
+        { user: 'user',type: String },
+        { admin: 'admin',type: String }
     ],
-    avatar: String,
-    username: String,
-    name: String,
-    email: String,
-    password: String,
-    pwd: String,
-    hashed_password: String,
-    loginAttempts: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    lockUntil: Number,
-    status: {
-        type: Number,
-        default: 1
-    }
+    avatar: { type: String },
+    username: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, select: false },
+    password: { type: String, required: true, select: false },
+    pwd: { type: String, select: false },
+    hashed_password: { type: String, select: false },
+    // 登录尝试
+    loginAttempts: {type: Number, required: true, default: 0, select: false },
+    lockUntil: { type: Number, select: false },
+    // 用户状态
+    status: { type: Number, default: 1, select: false }
 },{timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 // 虚拟字段，不会被保存到数据库当中

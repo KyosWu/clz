@@ -1,4 +1,4 @@
-const frontArticle = require('../../models/article');
+const article = require('../../models/article');
 const backArticle = require('../../models/backArticleSchema');
 
 /**
@@ -11,8 +11,8 @@ class Update {
     async update (ctx, next) {
         let {id} = ctx.request.query;
         try{
-            // let res = frontArticle.findByIdAndUpdate({_id:id},{$})
-            let front = await frontArticle.find({_id:id});
+            // let res = article.findByIdAndUpdate({_id:id},{$})
+            let front = await article.find({_id:id});
             let back = await backArticle.find({_id:id});
             let arr = [...front,...back];
             ctx.body = arr;
@@ -33,7 +33,7 @@ class Update {
         try{
             let req = ctx.request.body;
             let {title,content,date,des,original,list,id} = req;
-            let front = await frontArticle.findByIdAndUpdate({_id:id},{$set:{title,content,time:date,des,original,list}});
+            let front = await article.findByIdAndUpdate({_id:id},{$set:{title,content,time:date,des,original,list}});
             let back = await backArticle.findByIdAndUpdate({_id:id},{$set:{title,content,time:date,des,original,list}});
             let arr = [...front,...back];
             ctx.body = arr;

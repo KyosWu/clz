@@ -10,7 +10,7 @@ const LOCK_TIME = 2 * 60 * 60 * 1000
 
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema({
+const user = new Schema({
     // user admin superAdmin
     roles: [
         { user: 'user',type: String },
@@ -31,13 +31,13 @@ const userSchema = new Schema({
 },{timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 // 虚拟字段，不会被保存到数据库当中
-userSchema.virtual('isLocked').get(function () {
+user.virtual('isLocked').get(function () {
     return !!(this.lockUntil && this.lockUntil > Date.now())
 })
 
 
 // 加盐加密
-userSchema.pre('save', function (next) {
+user.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createdAt = this.meta.updatedAt = Date.now()
     } else {
@@ -46,7 +46,7 @@ userSchema.pre('save', function (next) {
     next()
 })
 
-userSchema.pre('save', function (next) {
+user.pre('save', function (next) {
     let user = this
 
     if (!user.isModified('password')) return next()
@@ -63,7 +63,7 @@ userSchema.pre('save', function (next) {
     })
 })
 
-userSchema.methods = {
+user.methods = {
     // 比较密码
     comparePassword: function (_password, password) {
         return new Promise((resolve, reject) => {
@@ -113,4 +113,4 @@ userSchema.methods = {
     }
 }
 
-module.exports = model('user', userSchema)
+module.exports = model('user', user)

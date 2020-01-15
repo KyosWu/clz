@@ -1,9 +1,16 @@
 const path = require('path')
-const auth = {
-    admin_secret: 'admin-token',
-    tokenKey: 'Token-Auth',
-    whiteList: ['login', 'client_api'],
-    blackList: ['admin_api']
+
+// jwt 密钥生成函数
+function createSecret(){
+    let date = new Date()
+    let num1 = Math.random()*1000
+    let num2 = Math.random()*(Math.abs(num1)*num1)
+    return num2 + date + num1
+}
+
+const secret = {
+    secretKey: createSecret(),
+    expiresIn: '1d'
 }
 
 const log = {
@@ -15,7 +22,7 @@ const log = {
 
 module.exports =  {
     env: process.env.NODE_ENV,
-    auth,
+    secret,
     log,
     mongodb: {
         username: 'admin',

@@ -1,8 +1,8 @@
 const article = require('../../models/article');
 const db = require('../../models/commentSchema');
 const config = require('../../models/commentConfigSchema');
-const md5 = require('../md5');
-const userModel = require('../../models/userSchema');
+const md5 = require('../../../middleware/md5');
+const userModel = require('../../models/user');
 const geetClick = require('../../../geet/click');
 /**
  * private API

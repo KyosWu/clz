@@ -1,83 +1,72 @@
-const userModel = require('../models/userSchema');
-const md5 = require('./md5');
+const userModel = require('../models/user');
 const jwt = require('jsonwebtoken')
-const conf = require('../../config/config')
 
-/**
- *Private API
- *@method login
- *@param {String|null} username POST
- *@param {String|null} password POST
- *@return {session,info}
-*/
+// jwt 配置密钥
+const {secret} = require('../../config/config')
+// 权限验证
+const { Auth } = require('../../middleware/auth')
+// ctx.body 提示状态
+const { getError, getSuccess } = require('../../middleware/statusType')
+// MD5验证
+const { MD5 } = require('../../middleware/md5')
+
+/* error 0 表示没有错误
+*  error [1,2,...] 表示错误
+*  success [1,2...] 表示成功
+* */
+
 class User {
-    // 用户登录
-    async login (ctx,next) {
-        try{
+    // 中台-登录
+    async login (ctx) {
+        try {
             let req = ctx.request.body
             let {username,password} = req
-            let pwd = md5(md5(password).substr(3,8)+md5(password))
-            let result = await userModel.find({username}).where('status').gte(1)
-            if (result.length === 0) {
+            // 加密后的密码
+            let pwd = MD5(password)
+            // 获取数据库的用户名和密码
+            let data = await userModel.find({username},{_id:0}).where('status').eq(1).select('username password')
+            let dataUsername = ''
+            let dataPassword = ''
+            for (let i in data){
+                dataUsername = data[i].username
+                dataPassword = data[i].password
+            }
+            if (dataUsername.length === 0) {
                 ctx.body = {
-                    error:1,
-                    msg:'username Error'
+                    msg: getError(1,'','用户名错误')
                 }
             }else{
-                let [userInfo] = result;
-                let {username,password} = userInfo;
-                if (password === pwd) {
-                    ctx.session.username = username;
+                let secretKey = secret.secretKey
+                if (dataPassword === pwd) {
+                    ctx.session.username = dataUsername
+                    // 生成token
+                    let token = Auth.setToken({dataUsername},secretKey,'1d')
                     ctx.body = {
-                        error:0,
-                        success:1,
-                        username:ctx.session.username
+                        token,
+                        username:ctx.session.username,
+                        msg: getSuccess(1,200,'登录成功')
                     }
                 }else {
                     ctx.body = {
-                        error:2,
-                        msg:'Unauthorized Password'
+                        msg: getError('','','密码错误')
                     }
                 }
             }
         }catch(e){
             ctx.body = {
-                error:1,
-                info:e
+                msg: getError(2,'',e)
             }
         }
+
     }
 
-
-    async info (ctx, next) {
-        console.log('----------------获取用户信息接口 user/getUserInfo-----------------------');
-        let token = ctx.request.query.token;
+    // 中台-用户信息列表
+    async list (ctx) {
         try {
-            let tokenInfo = jwt.verify(token, conf.auth.admin_secret);
-            ctx.body = {
-                username: tokenInfo.username,
-                name: tokenInfo.name,
-                _id: tokenInfo._id,
-                roles: tokenInfo.roles
-            }
-        }catch (e) {
-            if ('TokenExpiredError' === e.name) {
-                ctx.body = ('鉴权失败, 请重新登录!');
-                ctx.throw(401, 'token expired,请及时本地保存数据！');
-            }
-            ctx.throw(401, 'invalid token');
-            ctx.body('系统异常!');
-        }
-    }
-
-
-    // 用户信息列表
-    async list (ctx, next) {
-        console.log('----------------获取用户信息列表接口 user/getUserList-----------------------');
-        let keyword = ctx.request.body.params.keyword;
-        let pageindex = ctx.request.body.params.pageindex;
-        let pagesize = ctx.request.body.params.pagesize;
-        try {
+            // 关键词
+            let keyword = ctx.request.body.params.keyword;
+            let pageindex = ctx.request.body.params.pageindex;
+            let pagesize = ctx.request.body.params.pagesize;
             let reg = new RegExp(keyword, 'i')
             let skip = (pageindex-1)*pagesize;
             let limit = pagesize*1;
@@ -87,78 +76,81 @@ class User {
                     {username: { $regex: reg}},
                     {roles: { $regex: reg}}
                 ]
-            }).skip(skip).limit(limit).where('status').gte(1)
+            }).skip(skip).limit(limit).where('status').eq(1)
             // 统计条数
             let total = await userModel.countDocuments({})
             ctx.body = {
+                msg: getSuccess(1,200,''),
                 data,
                 total
             }
         }catch (e){
-            console.log(e)
+            ctx.body = {
+                msg: getError(1,'',e)
+            }
         }
     }
 
-    // 添加用户
-    async add (ctx, next) {
-        console.log('----------------添加管理员 user/add-----------------------');
-        let paramsData = ctx.request.body;
+    // 中台-添加管理员
+    async add (ctx) {
         try {
+            let paramsData = ctx.request.body;
             let data = await userModel.findOne({username: paramsData.name})
             if (data) {
-                console.log('用户已存在')
                 ctx.body = {
-                    code: 353,
+                    msg: getError(1,'','已存在用户')
                 }
             }else{
                 // 密码加密
                 let pwd = paramsData.password
-                let newPwd = md5(md5(pwd).substr(3,8)+md5(pwd))
+                let newPwd = MD5(pwd)
                 paramsData.password =newPwd
                 let data = await userModel.insertMany(paramsData);
                 ctx.body = {
-                    code: 'LIV',
-                    data
+                    msg: getSuccess(1,200,'添加成功')
                 }
             }
         }catch(e) {
-            ctx.body = e
+            ctx.body = {
+                msg: getError(1,'',e)
+            }
         }
     }
 
-    // 更新用户
-    async update (ctx, next) {
-        console.log('----------------更新管理员 user/update-----------------------');
-        let pwd = ctx.request.body.pwd
-        let newPwd = md5(md5(pwd).substr(3,8)+md5(pwd))
-        ctx.request.body.pwd = newPwd
+    // 中台-管理员更新用户
+    async update (ctx) {
         try {
+            let pwd = ctx.request.body.pwd
+            let newPwd = MD5(pwd)
+            ctx.request.body.pwd = newPwd
             let updateUser = await userModel.findByIdAndUpdate(ctx.request.body._id,ctx.request.body);
             ctx.body = {
-                updateUser
+                msg: getSuccess(1,200, '更新成功'),
+                data: updateUser
             }
         } catch(e) {
-            ctx.throw(353, e)
+            ctx.body = {
+                msg: getError( 1,'',e)
+            }
         }
-
     }
 
     // 根据id字段，删除用户
-    async del (ctx, next) {
-        console.log('----------------删除管理员 user/del-----------------------');
-        let id = ctx.request.body.params.id
+    async del (ctx) {
         try {
+            let id = ctx.request.body.params.id
             // userModel.find({_id: id}).update({status: 0})
             await userModel.findByIdAndUpdate({_id: id},{status: -1}).then(()=>{
                 ctx.body = {
-                    code: '615'
+                    msg: getSuccess(1,200, '删除成功')
                 }
             })
         }catch(e){
-            ctx.body = e
+            ctx.body = {
+                msg: getError(1,'',e)
+            }
         }
     }
-
 }
 
 module.exports = new User();

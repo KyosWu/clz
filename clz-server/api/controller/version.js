@@ -1,14 +1,10 @@
-const versionInsert = require('../models/versionSchema');
+const versionInsert = require('../models/version');
+const { getError, getSuccess } = require('../../middleware/statusType')
 
-/**
- * private API
- * @method insertVersion
- * @param {object} 接收发布版本参数
- * @return {object|null}  insert version number and version content
-*/
 class Version {
 
-	async insertVersion (ctx,next) {
+	// 插入新版本
+	async insertVersion (ctx) {
 		try{
 			let req = ctx.request.body;
 			let {version,content} = req;
@@ -18,44 +14,36 @@ class Version {
 				content:content
 			})
 			ctx.body = {
-				error:0,
-				success:1
+				msg: getSuccess(1,200, '创建成功')
 			}
 		}catch(e){
 			//handle error
-			ctx.body = e;
+			ctx.body = {
+				msg: getError(1,'', e)
+			}
 		}
 	}
 
-	/**
-	 * private API
-	 * @method getVersion
-	 * @return {object|null}  Version list sort=>Descending order
-	 */
-
-	async getVersion (ctx,next) {
+	// 获取版本
+	async getVersion (ctx) {
 		try{
-			let res = await versionInsert.find({},{__v:0}).sort({_id:-1});
+			let data = await versionInsert.find({},{__v:0}).sort({_id:-1});
 			ctx.body = {
-				error:0,
-				list:res
+				msg: getSuccess(1,200, ''),
+				data: data
 			}
 		}catch(e){
-			ctx.body = e;
+			ctx.body = {
+				msg: getError(1,'', e)
+			}
 		}
 	}
 
-	/**
-	 *@method Formatate
-	 *@param {Date|null} 传递时间参数
-	 *@return {String} 例如:2018-5-21
-	 */
-
-	FormatDate (strTime) {
+	// 格式化时间
+	static FormatDate (strTime) {
 		var date = new Date(strTime);
 		return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 	}
-
 }
 
 module.exports = new Version();

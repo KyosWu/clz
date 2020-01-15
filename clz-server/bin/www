@@ -26,7 +26,7 @@ const server = http.createServer(app.callback());
 
 // 如果前端链接成功,请求404,请添加如下代码
 const io = require('socket.io').listen(server);
-const user = require('../api/models/userSchema')
+const user = require('../api/models/user')
 // 将socket和app关联
 io.attach(app)
 // 和客服端进行连接

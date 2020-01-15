@@ -1,3 +1,4 @@
+const jwt = require('koa-jwt');
 const Router = require('koa-router');
 
 const router = new Router({
@@ -5,13 +6,16 @@ const router = new Router({
 });
 
 const {
-    login,info,list,add,update,del
+    login,list,add,update,del
 } = require('../controller/user')
 
 
+const { secret } = require('../../config/config');
+
+const auth = jwt({ secret });
+
 /*登录接口*/
 router.post('/login',login);
-router.post('/info',info);
 router.post('/list',list);
 router.post('/add',add);
 router.post('/update',update);

@@ -11,16 +11,14 @@ class Article {
 			let req = ctx.request.body;
 			let {title,htmlContent,tag,date,des,original,radio} = req;
 			// radios 等于后台字段list
-			const front = await article.update({title},{$set:{title,content:htmlContent,tag:tag ,time:date,des,original,list:radio,status: 1}},{upsert:true});
+			let front = await article.update({title},{$set:{title,content:htmlContent,tag:tag ,time:date,des,original,list:radio,status: 1}},{upsert:true});
 			let {ok} = front;
 			ctx.body = {
-				error:0,
-				success:ok
+				msg: getSuccess(1,200,'添加新文章成功')
 			}
 		}catch(e){
 			ctx.body = {
-				error:1,
-				info:e
+				msg: getError(1,'',e)
 			}
 		}
 	}
@@ -35,41 +33,47 @@ class Article {
 			let list = await article.find({status:1},{__v:0,content:0,original:0,list:0}).skip(page).limit(pagesize).sort({_id:-1});
 			let count = await article.count({});
 			ctx.body = {
-				error:0,
+				msg: getSuccess(1,200,'获取文章成功'),
 				count,
 				list
 			}
 		}catch(e){
 			ctx.body = {
-				error:1,
-				info:e
+				msg: getError(1,'',e)
 			}
 		}
 	}
 
 	// 获取全部文章--暂时只根据文章标题
 	async getAllArticle (ctx, next) {
-		let title = ctx.request.query.title
-		console.log(title)
-		const data = await article.find({title: title}).where('status').gte(1)
-		ctx.body = {
-			data
+		try {
+			let title = ctx.request.query.title
+			let data = await article.find({title: title}).where('status').gte(1)
+			ctx.body = {
+				data,
+				msg: getSuccess(1,200,'获取文章成功')
+			}
+		}catch(e){
+			ctx.body =  {
+				msg: getError(1,'',e)
+			}
 		}
 	}
 
 	// 获取前5篇文章文章
 	async getArticleSearchTopList (ctx, next) {
-		console.log('-----获取前几篇文章文章-----')
-		console.log(ctx.request.query.page)
-		let page = parseInt(ctx.request.query.page)
 		try {
+			let page = parseInt(ctx.request.query.page)
 			const data = await article.find({status: 1}).limit(page).sort({createdAt:1})
 			ctx.body = {
-				data
+				data:data,
+				msg: getSuccess(1,200,'获取文章成功')
 			}
 			console.log(data)
 		} catch(e) {
-			ctx.body = e
+			ctx.body = {
+				msg: getError(1,'',e)
+			}
 		}
 	}
 
@@ -78,20 +82,19 @@ class Article {
 		try{
 			let req = ctx.request.query;
 			let {id} = req;
-			let result = await article.findOne({_id:id});
+			let data = await article.findOne({_id:id});
 			// let result = await article.findOne({_id:id}).populate('comments').populate({path:'user',select: 'avatar name'});
 			let pre = await article.find({'_id':{'$lt':id}}).sort({_id: -1}).limit(1).select('_id title')
 			let next = await article.find({'_id':{'$gt':id}}).sort({_id: 1}).limit(1).select('_id title')
 			ctx.body = {
-				error:0,
-				info:result,
+				msg: getSuccess(1,200,'删除成功'),
+				data: data,
 				pre: pre,
 				next: next
 			}
 		}catch(e){
 			ctx.body = {
-				error:1,
-				error:e
+				msg: getError(1,'',e)
 			}
 		}
 	}
@@ -102,28 +105,33 @@ class Article {
 			let req = ctx.req.body;
 			let file = ctx.req.file;
 			let path = `http://${ctx.headers.host}/uploads/${file.filename}`
-			let result = await article.update({_id: req.id }, {$set: {banner: path, imgFileName:file.filename}},{upsert:true})
+			let data = await article.update({_id: req.id }, {$set: {banner: path, imgFileName:file.filename}},{upsert:true})
 			ctx.status = 200
 			ctx.body = {
-				status: ctx.status,
+				msg: getSuccess(1,200,'上传成功'),
 				filename: file.filename,
 				path,
-				result
+				data:data
 			}
 		} catch (error) {
-			ctx.body = error
+			ctx.body = {
+				msg: getError(1,'',e)
+			}
 		}
 	}
 
+	// 查找指定文章ID
 	async findOneArticle (ctx) {
 		try {
 			let req = ctx.request.body;
-			let result = await article.findOne({_id:req.id})
+			let data = await article.findOne({_id:req.id})
 			ctx.body = {
-				result
+				data:data,
 			}
 		} catch (error) {
-			ctx.body = error
+			ctx.body = {
+				msg: getError(1,'',e)
+			}
 		}
 	}
 
@@ -134,25 +142,33 @@ class Article {
 			let { imgFileName } = await article.findById({_id: request.id});
 			let path = `${process.cwd()}/public/uploads/${imgFileName}`;
 			await fs.unlinkSync(path)
-			let result = await article.update({_id: request.id }, {$unset: {banner: -1, imgFileName:-1}})
-			ctx.status = 200
+			let data = await article.update({_id: request.id }, {$unset: {banner: -1, imgFileName:-1}})
 			ctx.body = {
-				status: ctx.status,
-				result
+				msg: getSuccess(1,200,'删除成功'),
+				data: data
 			}
 		} catch (error) {
-			ctx.body = error
+			ctx.body = {
+				msg: getError(1,'',e)
+			}
 		}
 	}
 
 	// 获取所有tag标签
 	async getAllTags (ctx) {
-		console.log(ctx.request.query)
-		// let id = ctx.request.query.id
-		let data = await article.find({}).select('tag')
-		ctx.body = {
-			data
+		try {
+			// let id = ctx.request.query.id
+			let data = await article.find({}).select('tag')
+			ctx.body = {
+				data:data,
+				msg: getSuccess(1,200,'删除成功')
+			}
+		}catch(e){
+			ctx.body = {
+				msg: getError(1,'',e)
+			}
 		}
+
 	}
 }
 

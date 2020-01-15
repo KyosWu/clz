@@ -33,4 +33,4 @@ class System {
 	}
 }
 
-module.exports = new System();
+module.exports = new System()

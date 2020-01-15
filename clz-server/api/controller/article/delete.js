@@ -1,5 +1,7 @@
 const frontArticle = require('../../models/article');
 const backArticle = require('../../models/backArticleSchema');
+// ctx.body 提示状态
+const { getError, getSuccess } = require('../../../middleware/statusType')
 
 /**
  * private API
@@ -9,7 +11,9 @@ const backArticle = require('../../models/backArticleSchema');
 */
 
 class delArticle {
-	async delArticle (ctx,next) {
+
+	// 删除文章
+	async delArticle (ctx) {
 		try{
 			let req = ctx.request.body;
 			let {id,list} = req;
@@ -18,20 +22,14 @@ class delArticle {
 			let {n,ok} = res;
 			ctx.body = {
 				del:n,
-				ok: 1
+				msg: getSuccess(1,200,'删除成功')
 			}
 		}catch(e){
 			ctx.body = {
-				error:1,
-				info:e
-			};
+				msg: getError(1,'',e)
+			}
 		}
 	}
 }
 
-module.exports = new delArticle();
-
-
-// module.exports = {
-// 	delArticle
-// }
+module.exports = new delArticle()

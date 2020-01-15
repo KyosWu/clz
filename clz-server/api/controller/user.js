@@ -1,5 +1,4 @@
 const userModel = require('../models/user');
-const jwt = require('jsonwebtoken')
 
 // jwt 配置密钥
 const {secret} = require('../../config/config')
@@ -153,4 +152,4 @@ class User {
     }
 }
 
-module.exports = new User();
+module.exports = new User()

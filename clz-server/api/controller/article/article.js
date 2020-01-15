@@ -1,5 +1,7 @@
-const article = require('../../models/article');
-const fs = require('fs');
+const article = require('../../models/article')
+const fs = require('fs')
+// ctx.body 提示状态
+const { getError, getSuccess } = require('../../../middleware/statusType')
 
 class Article {
 

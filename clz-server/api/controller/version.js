@@ -42,8 +42,8 @@ class Version {
 	// 格式化时间
 	static FormatDate (strTime) {
 		var date = new Date(strTime);
-		return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+		return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 	}
 }
 
-module.exports = new Version();
+module.exports = new Version()

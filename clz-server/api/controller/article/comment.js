@@ -110,28 +110,23 @@ class Comment {
 
     // 创建评论
     async newCreateComments(ctx) {
-        // ctx.verifyParams({
-        //     content: { type: 'string', required: true },
-        //     rootCommentId: { type: 'string', required: false },
-        //     replyTo: { type: 'string', required: false },
-        // });
         // 如果没有回复者ID，即第一次评论
         let params = ctx.request.body.params
         if(!(params.replyId)){
             // 先查找有无这个用户,没有则创建用户，同时email 唯一
             let rawId = await user.find({email:params.email}).select('_id')
             // 如果没有用户
-            if( rawId.length !== 1){
+            console.log(rawId.length)
+            if( rawId.length === 0){
                 // 新建用户
                 await user.insertMany({username:params.username,password:params.password,email:params.email})
-                // 新建的用户id
+                let id = await user.find({email:params.email}).select('_id')
                 let userId = ''
-                for(let i in rawId){
-                    userId = rawId[i]._id
+                for(let i in id){
+                    userId = id[i]._id
                 }
-                // 同时新建相关的评论表
-                let newUserId =  mongoose.Types.ObjectId(userId);
-                await db.insertMany({commentator: newUserId,content: params.content,articleId: params.articleId})
+                let newUserId =  mongoose.Types.ObjectId(userId)
+                await db.insertMany({commentator:newUserId,content: params.content,articleId: params.articleId})
             }
             // 有用户
             if(rawId.length === 1){
@@ -140,7 +135,7 @@ class Comment {
                 for(let i in rawId){
                     userId = rawId[i]._id
                 }
-                let newUserId =  mongoose.Types.ObjectId(userId);
+                let newUserId =  mongoose.Types.ObjectId(userId)
                     // 同时新建相关的评论表
                 await db.insertMany({commentator: newUserId,content: params.content,articleId: params.articleId})
             }
@@ -148,7 +143,7 @@ class Comment {
                 e: '无replayid'
             }
         }
-        if(params.replyId){
+        if(params.replyId && params.rootCommentId){
             let newReplyId = mongoose.Types.ObjectId(params.replyId)
             // 先查找有无这个用户,没有则创建用户，同时email 唯一
             let rawId = await user.find({email:params.email}).select('_id')
@@ -156,14 +151,13 @@ class Comment {
             if( rawId.length !== 1){
                 // 新建用户
                 await user.insertMany({username:params.username,password:params.password,email:params.email})
-                // 新建的用户id
+                let id = await user.find({email:params.email}).select('_id')
                 let userId = ''
-                for(let i in rawId){
-                    userId = rawId[i]._id
+                for(let i in id){
+                    userId = id[i]._id
                 }
-                // 同时新建相关的评论表
-                let newUserId =  mongoose.Types.ObjectId(userId);
-                await db.insertMany({commentator: newUserId,content: params.content,articleId: params.articleId,replayTo:newReplyId})
+                let newUserId =  mongoose.Types.ObjectId(userId)
+                await db.insertMany({commentator: newUserId,content: params.content,articleId: params.articleId,replayTo:newReplyId,rootCommentId: params.rootCommentId})
             }
             // 有用户
             if(rawId.length === 1){
@@ -172,24 +166,14 @@ class Comment {
                 for(let i in rawId){
                     userId = rawId[i]._id
                 }
-                let newUserId =  mongoose.Types.ObjectId(userId);
+                let newUserId =  mongoose.Types.ObjectId(userId)
                 // 同时新建相关的评论表
-                await db.insertMany({commentator: newUserId,content: params.content,articleId: params.articleId,replayTo:newReplyId})
+                await db.insertMany({commentator: newUserId,content: params.content,articleId: params.articleId,replayTo:newReplyId,rootCommentId: params.rootCommentId})
             }
             ctx.body = {
                 e: '有replayid'
             }
         }
-        // await user.updateOne({email:params.email},{commentId: params.articleId})
-        // let commentatorId = await user.find({email:params.email}).select('_id')
-        // let content = await db.insertMany({articleId: params.articleId,content: params.content,commentator:commentatorId})
-        // console.log(content)
-            // 如果有replayId 表示是评论别人的
-
-        // let commentator = ctx.request.body._id
-        // let {questionId, answerId} = ctx.request.body
-        // let comment = await new db({ ...ctx.request.body, commentator, questionId, answerId }).save()
-
     }
 
 
@@ -226,12 +210,16 @@ class Comment {
         }
     }
 
-    // 前端网页-文章评论列表
+    // 前端-文章评论列表
     async articleCommentsList (ctx) {
         console.log(ctx.request.query)
-        let id  = ctx.request.query.id
-        let data = await db.find({articleId: id}).populate('commentator replayTo')
-        // console.log(data)
+        let articleId  = ctx.request.query.id
+        let rootCommentId = ctx.request.query.rootCommentId
+        // 根据文章ID 展示对应旗下的评论内容
+        let data = await db.find({$or:[
+                {articleId: articleId},
+                {rootCommentId: rootCommentId}
+            ]}).populate('commentator replayTo')
         let contentTotal = await db.where('content').countDocuments()
         ctx.body = {
             data:data,

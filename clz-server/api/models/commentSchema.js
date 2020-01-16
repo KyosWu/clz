@@ -11,16 +11,17 @@ const commentSchema = new Schema({
     articleId: { type: Schema.Types.ObjectId, ref: 'article' },
     // 回复给哪个用户
     replayTo: { type: Schema.Types.ObjectId, ref: 'userC' },
+    // 根评论
+    rootCommentId: { type: String , required: false },
+    // 评论留言内容
+    content: { type: String, required: false },
+
     // 问题Id
     questionId: { type: String,},
     // 回答Id
     answerId: { type: String},
-    // 跟评论
-    rootCommentId: { type: String , required: false},
     // emoji相关
     emoji: String,
-    // 评论留言内容
-    content: String,
     // 腾讯云验证码相关
     ticket: String,
     ranstr: String,

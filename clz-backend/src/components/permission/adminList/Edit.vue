@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       roles: [
-        {label: '普通管理员', value: 'user'},
+        {label: '普通管理员', value: 'admin'},
         {label: '超级管理员', value: 'admin'}
       ],
       loading: false,
@@ -74,7 +74,7 @@ export default {
       this.loading = true
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$axios.post('/user/update', this.info).then((res) => {
+          this.$axios.post('/admin/update', this.info).then((res) => {
             this.loading = false
             this.dialogTableVisible = false
           })

@@ -4,7 +4,7 @@
 ``` bash
 #### views
 >index.vue
-/user/login
+/admin/login
 
 ####store
 >store-modules/systemInfo
@@ -44,11 +44,11 @@
 /articleimg/upload
 
 >permission-adminAdd-index
-/user/add
+/admin/add
 >permission-adminList-Edit
-/user/update
+/admin/update
 >permission-adminList-index
-/user/list
+/admin/list
 ```
 
 

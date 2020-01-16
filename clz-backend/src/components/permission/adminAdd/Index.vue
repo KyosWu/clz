@@ -40,11 +40,11 @@ export default {
         username: '',
         password: '',
         avatar: '',
-        roles: ['user']
+        roles: ['admin']
       },
       roles: [
         {label: '超级管理员', value: 'admin'},
-        {label: '普通管理员', value: 'user'}
+        {label: '普通管理员', value: 'admin'}
       ],
       loading: false,
       rules: {
@@ -71,7 +71,7 @@ export default {
           // await this.$store.dispatch('addUser', this.info).then(
           //   console.logs('asfafff')
           // )
-          this.$axios.post('/user/add', this.info).then((res) => {
+          this.$axios.post('/admin/add', this.info).then((res) => {
             const status = res.data
             if (status.code === 353) {
               this.loading = false

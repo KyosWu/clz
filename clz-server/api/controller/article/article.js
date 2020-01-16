@@ -44,13 +44,32 @@ class Article {
 		}
 	}
 
-	// 获取全部文章--暂时只根据文章标题
-	async getAllArticle (ctx, next) {
+	// 获取前5篇文章文章
+	async getArticleSearchTopList (ctx) {
+		console.log(ctx.request.query)
+		try {
+			let page = parseInt(ctx.request.query.page)
+			const data = await article.find({status: 1}).limit(page).sort({createdAt:1})
+			ctx.body = {
+				data:data,
+				msg: getSuccess(1,200,'获取文章成功')
+			}
+		} catch(e) {
+			ctx.body = {
+				msg: getError(1,'',e)
+			}
+		}
+	}
+
+	// 根据文章标题获取对应文章
+	async getAllArticle (ctx) {
 		try {
 			let title = ctx.request.query.title
-			let data = await article.find({title: title}).where('status').gte(1)
+			let data = await article.find({title: title}).where('status').eq(1)
+			let total = await article.countDocuments()
 			ctx.body = {
-				data,
+				data:data,
+				total:total,
 				msg: getSuccess(1,200,'获取文章成功')
 			}
 		}catch(e){
@@ -60,34 +79,17 @@ class Article {
 		}
 	}
 
-	// 获取前5篇文章文章
-	async getArticleSearchTopList (ctx, next) {
-		try {
-			let page = parseInt(ctx.request.query.page)
-			const data = await article.find({status: 1}).limit(page).sort({createdAt:1})
-			ctx.body = {
-				data:data,
-				msg: getSuccess(1,200,'获取文章成功')
-			}
-			console.log(data)
-		} catch(e) {
-			ctx.body = {
-				msg: getError(1,'',e)
-			}
-		}
-	}
-
 	// 根据对应的文章id 返回匹配的文章内容
-	async articleInfo (ctx, next) {
+	async articleInfo (ctx) {
+		console.log(ctx.request.query)
 		try{
-			let req = ctx.request.query;
-			let {id} = req;
-			let data = await article.findOne({_id:id});
+			let id = ctx.request.query.id;
+			let data = await article.findById({_id:id}).where('status').eq(1)
 			// let result = await article.findOne({_id:id}).populate('comments').populate({path:'user',select: 'avatar name'});
 			let pre = await article.find({'_id':{'$lt':id}}).sort({_id: -1}).limit(1).select('_id title')
 			let next = await article.find({'_id':{'$gt':id}}).sort({_id: 1}).limit(1).select('_id title')
 			ctx.body = {
-				msg: getSuccess(1,200,'删除成功'),
+				msg: getSuccess(1,200,'获取文章成功'),
 				data: data,
 				pre: pre,
 				next: next

@@ -159,7 +159,7 @@ export default {
         pageindex: this.pageindex,
         pagesize: this.pagesize
       }
-      await this.$axios.post('/user/list', {params: data}).then((res) => {
+      await this.$axios.post('/admin/list', {params: data}).then((res) => {
         // 用户数据
         this.userList = res.data.data
         console.log(this.userList)
@@ -168,7 +168,7 @@ export default {
       })
     },
     del (scope, index, id) {
-      this.$axios.post('/user/del', {params: {id: id}}).then((res) => {
+      this.$axios.post('/admin/del', {params: {id: id}}).then((res) => {
         this.userList.splice(index, 1)
       })
     },

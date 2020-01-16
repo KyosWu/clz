@@ -13,7 +13,7 @@
               <span slot="prepend"><i class="icon iconfont icon-mima"></i></span>
             </Input>
             <br>
-            <Button type="primary" long @click="user(loginInfo.username,loginInfo.password)">登录</Button>
+            <Button type="primary" long @click="admin(loginInfo.username,loginInfo.password)">登录</Button>
           </Card>
         </Col>
       </Row>
@@ -42,9 +42,9 @@ export default {
   methods: {
     // 设置用户名vuex方法
     ...mapMutations(['setUserName']),
-    user (username, password) {
+    admin (username, password) {
       let json = {username, password}
-      this.$axios.post('/user/login', json).then(async res => {
+      this.$axios.post('/admin/login', json).then(async res => {
         let {error, msg} = res.data
         if (Object.is(error, 0)) {
           await this.$store.dispatch('setBaseInfo', this.loginInfo)

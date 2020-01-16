@@ -1,4 +1,4 @@
-const userModel = require('../models/user');
+const userModel = require('../models/admin');
 
 // jwt 配置密钥
 const {secret} = require('../../config/config')

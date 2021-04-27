@@ -40,7 +40,7 @@
     "mongoose": "^5.1.0",
     "mysql2": "^2.0.2",
     "qiniu": "^7.2.1",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "request-promise": "^4.2.5",
     "require-directory": "^2.1.1",
     "sequelize": "^5.21.3",
